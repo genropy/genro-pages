@@ -1,11 +1,13 @@
-// Copyright 2025 Softwell S.r.l. - SPDX-License-Identifier: Apache-2.0
-// Browser shim for Node's `module` builtin. genro-tytx imports
-// `createRequire` at module top level, then uses the returned `require`
-// inside try/catch to probe optional native codecs (@msgpack, big.js).
-// Here `require` always throws, so those probes fall back cleanly and
-// the browser never needs those Node-only packages.
+// Copyright 2026 Softwell S.r.l. - SPDX-License-Identifier: Apache-2.0
+// Resolve TYTX's known lazy requires against the same browser ESM modules.
+// No codec is implemented here. Other optional Node packages stay unavailable.
+import * as msgpack from '@msgpack/msgpack';
+import * as tytxMsgpack from '/_assets/tytx/msgpack.js';
+
 export function createRequire() {
-    return () => {
-        throw new Error('require() is not available in the browser');
+    return (name) => {
+        if (name === '@msgpack/msgpack') { return msgpack; }
+        if (name === './msgpack.js') { return tytxMsgpack; }
+        throw new Error(`Optional Node module unavailable in browser: ${name}`);
     };
 }

@@ -30,7 +30,7 @@ expose the client runtime and source builder for inspection.
 
 The server is mounted at the site root and binds to loopback by default. The
 source-directory asset server is intended for this local experiment; bundled
-asset distribution is not implemented. Only `.js` files beneath the configured
+asset distribution is not implemented. Only `.js` and `.mjs` files beneath the configured
 roots are served.
 
 ## Validation
@@ -62,3 +62,19 @@ experiment, but this page uses ordinary HTML only.
 
 Apache License 2.0. Copyright 2025-2026 Softwell S.r.l.
 See LICENSE and NOTICE.
+
+## MessagePack comparison
+
+The page has JSON and MessagePack buttons. `/main?transport=msgpack` returns
+`application/vnd.tytx+msgpack` bytes. The browser reads an ArrayBuffer, calls
+`Bag.fromTytx(new Uint8Array(buffer), 'msgpack')`, then loads the decoded source
+through the same builder. The inspector's JSON is a readable view generated
+AFTER binary decoding, not the network payload.
+
+The Python environment needs `genro-tytx[msgpack]`; the client source checkout
+needs `@msgpack/msgpack` in `genro-tytx/js/node_modules` (tested with 3.1.3).
+The browser shim maps TYTX's lazy requires to the existing ESM codec and the
+library's ESM distribution. No MessagePack codec is copied into pages.
+
+Three integration cases pass: JSON and MessagePack both build the expected DOM,
+plus shell/asset checks. Both transports were observed in the in-app browser.

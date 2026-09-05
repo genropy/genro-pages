@@ -9,6 +9,7 @@
   "genro-dom-js": "/_assets/dom/index.js",
   "genro-bag-js": "/_assets/bag/index.js",
   "genro-tytx": "/_assets/tytx/index.js",
+  "@msgpack/msgpack": "/_assets/msgpack/index.mjs",
   "module": "/_assets/pages/module.js",
   "@xmldom/xmldom": "/_assets/pages/xmldom.js"
 }}
@@ -24,6 +25,7 @@ details {margin-top: 24px} pre {white-space: pre-wrap; overflow-wrap: anywhere; 
 </style>
 </head>
 <body><main>
+<nav aria-label="Trasporto"><button data-transport="json">TYTX JSON</button> · <button data-transport="msgpack">TYTX MessagePack</button></nav>
 <div id="root" aria-live="polite"></div>
 <p id="error" hidden></p>
 <details><summary>Ricetta TYTX ricevuta dal server</summary><pre id="payload"></pre></details>

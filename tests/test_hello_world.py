@@ -13,7 +13,7 @@ from genro_pages.hello_world import HelloWorldPage
 
 
 class TestHelloWorld:
-    async def request(self, server, path, method="GET"):
+    async def request(self, server, path, method="GET", query=b""):
         messages = []
 
         async def receive():
@@ -23,24 +23,27 @@ class TestHelloWorld:
             messages.append(message)
 
         await server({"type": "http", "method": method, "path": path,
-                      "query_string": b"", "headers": []}, receive, send)
+                      "query_string": query, "headers": []}, receive, send)
         return messages[0], b"".join(m.get("body", b"") for m in messages[1:])
 
     @property
     def modules(self):
         return Path(os.environ.get("GENRO_CLIENT_MODULES", Path(__file__).resolve().parents[2]))
 
+    @pytest.mark.parametrize("transport", ["json", "msgpack"])
     @pytest.mark.asyncio
-    async def test_recipe_crosses_asgi_and_builds_in_javascript(self):
+    async def test_recipe_crosses_asgi_and_builds_in_javascript(self, transport):
         server = AsgiServer(applications=[HelloWorldPage(client_modules=self.modules)])
-        response, body = await self.request(server, "/main")
+        response, body = await self.request(server, "/main", query=f"transport={transport}".encode())
         assert response["status"] == 200
-        assert b"application/vnd.tytx+json" in dict(response["headers"])[b"content-type"]
-        recipe = Bag.from_tytx(body.decode())
+        assert f"application/vnd.tytx+{transport}".encode() in dict(response["headers"])[b"content-type"]
+        recipe = Bag.from_tytx(body if transport == "msgpack" else body.decode(), transport=transport)
+        if transport == "msgpack":
+            assert not body.startswith(b"{")
         assert recipe.get_node("div_0.h1_0").node_tag == "h1"
         assert recipe["div_0.h1_0"] == "Hello World"
         script = Path(__file__).with_name("render_recipe.mjs")
-        result = subprocess.run(["node", str(script), str(self.modules)], input=body,
+        result = subprocess.run(["node", str(script), str(self.modules), transport], input=body,
                                 capture_output=True, check=True)
         rendered = json.loads(result.stdout)
         assert rendered == {"heading": "Hello World", "order": ["H1", "P", "P", "INPUT"],

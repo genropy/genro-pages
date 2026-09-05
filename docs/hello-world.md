@@ -58,3 +58,21 @@ https://github.com/genropy/genro-builders/issues/37.
 
 Next: one existing web-component collection and initial data transport, after
 confirming datastore root and addressing semantics.
+
+## MessagePack follow-up
+
+The same server now supports `/main?transport=msgpack`. On 2026-09-05 the browser
+received 289 binary bytes, displayed the same Hello World and attributes, and
+showed the decoded Bag in the inspector. The first bytes were
+`81 a4 72 6f 77 73`, a MessagePack map containing `rows`.
+
+The server was restarted with `/Users/gporcari/.pyenv/versions/3.12.9/bin/python`
+in place of the ASGI venv interpreter in the command above: that environment
+already contains Python msgpack 1.1.2. JavaScript uses @msgpack/msgpack 3.1.3
+from genro-tytx/js/node_modules and the existing TYTX extension codec.
+
+Three integration cases pass (JSON, MessagePack, shell/assets). The browser's
+programmatic navigation to a URL with a query was blocked by its client;
+reloading the original page and selecting the in-page transport button worked.
+The MessagePack branch was then directly observed through its decoded content
+and binary byte count, not inferred solely from Node tests.
