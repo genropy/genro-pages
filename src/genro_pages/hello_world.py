@@ -15,8 +15,8 @@ class HelloWorldPage(WebpageApplication):
 
         experiment = root.div(class_="hello", margin_top="24px")
         experiment.h2("Prova il binding")
-        experiment.p("Scrivi un titolo: il testo qui sotto cambia a ogni carattere.")
-        experiment.input(value="^titolo", updateOn="input", node_id="title_input",
+        experiment.p("Scrivi un titolo: poi esci dal campo per aggiornare il testo qui sotto.")
+        experiment.input(value="^titolo", node_id="title_input",
                          placeholder="Scrivi qui…", aria_label="Titolo")
         experiment.div("^titolo", node_id="title_echo", font_size="28px",
                        min_height="45px", margin_top="16px")

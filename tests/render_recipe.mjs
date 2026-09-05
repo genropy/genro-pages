@@ -16,6 +16,10 @@ const node = builder.source.getNode('div_0.h1_0');
 const field = root.querySelector('input[placeholder]');
 field.value = 'Hello Astra';
 field.dispatchEvent(new Event('input', {bubbles: true}));
+if (app.data.getItem('main.titolo') === 'Hello Astra') {
+    throw new Error('Default binding wrote before change/focus-out');
+}
+field.dispatchEvent(new Event('change', {bubbles: true}));
 const echoNode = builder.nodeById('title_echo');
 const echo = root.querySelector(`#${builder.targetId(echoNode)}`);
 if (echo.textContent !== 'Hello Astra' || app.data.getItem('main.titolo') !== 'Hello Astra') {
