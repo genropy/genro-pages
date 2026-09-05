@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Genro Pages package seed; the page runtime is not implemented yet."""
+"""Python-authored pages rendered by the Genro JavaScript runtime."""

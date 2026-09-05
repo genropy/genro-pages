@@ -4,71 +4,61 @@ Reactive pages built with Python and Genro.
 
 ## Status
 
-**Pre-Alpha — repository seed.** Packaging, documentation and development
-configuration are present. No page runtime or test server is implemented yet.
-This repository is local; remote hosting and publishing are not configured.
+**Alpha — first integration experiment.** A minimal genro-asgi server returns
+an HtmlBuilder source through TYTX; genro-dom-js constructs it in the browser.
+This is an ordinary-HTML Hello World, not a complete page framework.
 
-## Purpose
+## Hello World
 
-Build live pages from Python recipes, rendered in the browser by genro-dom-js.
-An application can host many pages, each with a client source Bag, datastore
-and a corresponding server context.
+The class hierarchy is `RoutedApplication -> WebpageApplication -> HelloWorldPage`.
+The concrete page defines `main(root)`. The common base serves an empty browser
+shell at `/`, the typed recipe at `/main`, and explicitly configured JS sources
+at `/_assets/`. The browser retains its source Bag and datastore.
 
-| Project | Responsibility |
-| --- | --- |
-| genro-builders | Grammars and Python recipe construction |
-| genro-dom-js | Client DOM construction and reactivity |
-| genro-asgi | Server, routing, transports and resident application contexts |
-| genro-pages | Integration of page authoring, bootstrap, recipes and client runtime |
-
-The Python-to-client recipe integration is to be verified, not assumed to work.
-
-## Direction
-
-- Keep source and data as distinct live Bags in the browser.
-- Preserve legacy recipe names and parameter meanings where possible to ease migration.
-- Support reusable Python and JavaScript components and project-owned web components.
-- Obtain the initial recipe through a main call; prefer WebSockets for subsequent
-  operations and push updates to a live page context.
-- Support remote recipe fragments and lazy resolvers; immediate-value remote
-  resolver consumers remain an explicit compatibility question.
-- Use user-sticky server contexts to reuse resident objects across calls.
-- Learn from genro-ws-web's page, resource and inspector concepts. Its old
-  Python-side reactive HTML patch engine is not the selected client model.
-
-A read-only server monitor is the intended first practical consumer.
-
-## First integration experiment
-
-The next implementation should provide a minimal genro-asgi server and test
-pages to verify, separately: a Python recipe rendered in the client, data
-bindings, source mutations, server data updates and remote recipe fragments.
-An inspector should expose the source Bag and datastore. The bootstrap protocol
-and public page API are not defined by this scaffold.
-
-## Development
-
-Python 3.11+; Hatchling packaging; pytest; Ruff; advisory mypy; Sphinx/MyST.
+Use the matching `codex/python-js-alignment` branches of genro-bag-js and
+genro-dom-js, plus genro-tytx commit `80529f7`. They must be sibling folders under
+the directory passed as `--modules`. genro-tytx may be a symlink to its checkout.
+Install Python dependencies in the chosen environment, then from this repository:
 
 ```sh
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e ".[dev,docs]"
-ruff check src/ tests/ docs/conf.py
-python -m build
-sphinx-build -W -b html docs docs/_build/html
+PYTHONPATH=src python -m genro_pages --modules .. --port 8010
 ```
 
-`tests/` is reserved for the future suite. At this stage pytest exits with code
-5 (no tests collected), which the seed CI reports explicitly.
+Open http://127.0.0.1:8010/. The disclosure below the page shows the actual TYTX
+payload separately from the rendered content. `window.genro` and `window.page`
+expose the client runtime and source builder for inspection.
 
-`package.json` declares a local dependency on the sibling `../genro-dom-js`.
-There is no browser entry point, bundle or npm test command yet; serving and
-resolving its modules belongs to the first integration experiment.
+The server is mounted at the site root and binds to loopback by default. The
+source-directory asset server is intended for this local experiment; bundled
+asset distribution is not implemented. Only `.js` files beneath the configured
+roots are served.
 
-The repository starts with `main` and `develop`; use `develop` for integration.
+## Validation
+
+```sh
+PYTHONPATH=src python -m pytest tests/
+ruff check src/ tests/
+```
+
+The integration test calls the real AsgiServer, sends its `/main` output to the
+JS runtime under jsdom, and checks nesting/order, text, typed attributes and
+source ownership. It requires Node and the sibling DOM repository's jsdom dev
+dependency. Set `GENRO_CLIENT_MODULES` if the client repositories are elsewhere.
+The second test checks the empty shell, asset serving and path confinement.
+
+See [the experiment record](docs/hello-world.md) for exact dependency commits,
+the command used locally and browser observations.
+
+## Next steps
+
+Preserve browser reactivity and legacy recipe names. This experiment does not
+implement initial datastore transport, per-user/page residency, WebSocket calls,
+remote fragments, resolver transport or component-body transport. Datastore root
+semantics remain under review in genro-builders issue #37; Hello World does not
+change them. Existing JS web-component collections remain available for the next
+experiment, but this page uses ordinary HTML only.
 
 ## License
 
 Apache License 2.0. Copyright 2025-2026 Softwell S.r.l.
-See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+See LICENSE and NOTICE.

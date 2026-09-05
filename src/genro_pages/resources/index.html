@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genro Pages · Hello World</title>
+<script type="importmap">
+{"imports": {
+  "genro-dom-js": "/_assets/dom/index.js",
+  "genro-bag-js": "/_assets/bag/index.js",
+  "genro-tytx": "/_assets/tytx/index.js",
+  "module": "/_assets/pages/module.js",
+  "@xmldom/xmldom": "/_assets/pages/xmldom.js"
+}}
+</script>
+<style>
+body {font: 17px/1.6 system-ui, sans-serif; margin: 0; background: #f4f6f8; color: #182534}
+main {max-width: 760px; margin: 10vh auto; padding: 32px}
+.hello {padding: 32px; background: white; border: 1px solid #dbe2e8; border-radius: 12px}
+h1 {font-size: 42px; margin-top: 0} .path {color: #50677c}
+input {font: inherit; padding: 8px 12px; border: 1px solid #dbe2e8; border-radius: 6px}
+details {margin-top: 24px} pre {white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px}
+#error {color: #9b2020}
+</style>
+</head>
+<body><main>
+<div id="root" aria-live="polite"></div>
+<p id="error" hidden></p>
+<details><summary>Ricetta TYTX ricevuta dal server</summary><pre id="payload"></pre></details>
+</main><script type="module" src="/_assets/pages/bootstrap.js"></script></body>
+</html>

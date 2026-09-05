@@ -5,7 +5,7 @@ All general policies are inherited from that document.
 
 ## Project context
 
-- Status: Pre-Alpha; no framework implementation yet.
+- Status: Alpha; minimal Hello World integration, no complete page framework.
 - Purpose: Python-authored reactive pages using genro-builders, genro-asgi
   and genro-dom-js, with DOM construction and reactivity in the client.
 - Preserve legacy recipe names and parameter meanings for migration.
