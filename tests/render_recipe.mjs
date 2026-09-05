@@ -13,6 +13,14 @@ builder.loadSource(Bag.fromTytx(transport === 'msgpack' ? readFileSync(0) : read
 const root = document.createElement('div');
 const app = new Application(root, builder);
 const node = builder.source.getNode('div_0.h1_0');
+const field = root.querySelector('input[placeholder]');
+field.value = 'Hello Astra';
+field.dispatchEvent(new Event('input', {bubbles: true}));
+const echoNode = builder.nodeById('title_echo');
+const echo = root.querySelector(`#${builder.targetId(echoNode)}`);
+if (echo.textContent !== 'Hello Astra' || app.data.getItem('main.titolo') !== 'Hello Astra') {
+    throw new Error('Typing did not update the shared title binding');
+}
 console.log(JSON.stringify({
     heading: root.querySelector('h1').textContent,
     order: [...root.firstElementChild.children].map(n => n.tagName),
