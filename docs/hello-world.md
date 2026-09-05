@@ -76,3 +76,10 @@ programmatic navigation to a URL with a query was blocked by its client;
 reloading the original page and selecting the in-page transport button worked.
 The MessagePack branch was then directly observed through its decoded content
 and binary byte count, not inferred solely from Node tests.
+
+## Source inspector
+
+The inspector now shows `builder.source.toXml({pretty: true})` from the mounted
+JavaScript builder, replacing the transport dump. It refreshes after mounting
+and when the disclosure is toggled. The transport remains TYTX JSON/MessagePack;
+XML is a readable view of the client source, not the DOM or the wire payload.

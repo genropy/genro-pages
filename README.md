@@ -24,8 +24,8 @@ Install Python dependencies in the chosen environment, then from this repository
 PYTHONPATH=src python -m genro_pages --modules .. --port 8010
 ```
 
-Open http://127.0.0.1:8010/. The disclosure below the page shows the actual TYTX
-payload separately from the rendered content. `window.genro` and `window.page`
+Open http://127.0.0.1:8010/. The disclosure below the page shows the mounted JavaScript source Bag as XML,
+using `builder.source.toXml({pretty: true})`. It refreshes when opened. `window.genro` and `window.page`
 expose the client runtime and source builder for inspection.
 
 The server is mounted at the site root and binds to loopback by default. The
@@ -68,8 +68,8 @@ See LICENSE and NOTICE.
 The page has JSON and MessagePack buttons. `/main?transport=msgpack` returns
 `application/vnd.tytx+msgpack` bytes. The browser reads an ArrayBuffer, calls
 `Bag.fromTytx(new Uint8Array(buffer), 'msgpack')`, then loads the decoded source
-through the same builder. The inspector's JSON is a readable view generated
-AFTER binary decoding, not the network payload.
+through the same builder. The inspector shows the mounted source Bag as XML after decoding and activation;
+it is not the network payload.
 
 The Python environment needs `genro-tytx[msgpack]`; the client source checkout
 needs `@msgpack/msgpack` in `genro-tytx/js/node_modules` (tested with 3.1.3).

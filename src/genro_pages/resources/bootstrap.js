@@ -9,9 +9,6 @@ async function renderPage(transport) {
         const payload = transport === 'msgpack'
             ? new Uint8Array(await response.arrayBuffer()) : await response.text();
         const source = Bag.fromTytx(payload, transport);
-        document.getElementById('payload').textContent = transport === 'msgpack'
-            ? `MessagePack · ${payload.byteLength} bytes\nBinary prefix: ${Array.from(payload.slice(0, 24), b => b.toString(16).padStart(2, '0')).join(' ')}\n\nDecoded Bag (TYTX JSON for inspection):\n${source.toTytx()}`
-            : payload;
         const builder = new HtmlBuilder('main');
         const root = document.getElementById('root');
         const freshRoot = root.cloneNode(false);
@@ -20,6 +17,7 @@ async function renderPage(transport) {
         builder.loadSource(source);
         window.genro = new Application(document.getElementById('root'), builder);
         window.page = builder;
+        document.getElementById('source-xml').textContent = builder.source.toXml({pretty: true});
     } catch (error) {
         const message = document.getElementById('error');
         message.hidden = false;
@@ -32,3 +30,9 @@ await renderPage(new URLSearchParams(location.search).get('transport') || 'json'
 for (const button of document.querySelectorAll('[data-transport]')) {
     button.addEventListener('click', () => renderPage(button.dataset.transport));
 }
+
+document.getElementById('source-inspector').addEventListener('toggle', () => {
+    if (window.page) {
+        document.getElementById('source-xml').textContent = window.page.source.toXml({pretty: true});
+    }
+});
