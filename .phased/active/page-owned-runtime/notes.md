@@ -48,3 +48,5 @@ Browser check on localhost: initial example rendered with CodeMirror; two rebuil
 worked; Ctrl+Shift+D opened one inspector; switching to MessagePack preserved one
 working inspector and updated navigation transport. No browser errors. Human
 Verify remains the authored judgment of familiar interaction and unchanged look.
+
+Dependency commit: genro-dom-js f743e6c. Pages implementation checkpoint: af3e883.
