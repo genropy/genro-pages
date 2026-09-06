@@ -3,9 +3,13 @@
 import {Application} from 'genro-dom-js';
 import {Bag} from 'genro-bag-js';
 import {GalleryBuilder} from './gallery.js';
+import {DeveloperTools} from './dev.js';
 import {Shortcuts} from './shortcuts.js';
 
 export function mountInspector(host, source, page) {
+    if (page._disposed || page.dev?.disposed) return null;
+    page.dev ||= new DeveloperTools();
+    page.dev.inspector?.dispose();
     const builder = new GalleryBuilder('inspector');
     builder.loadSource(source);
     const mount = document.createElement('div');
@@ -35,17 +39,20 @@ export function mountInspector(host, source, page) {
         };
         const id = 'inspector-detail-' + kind;
         bag.subscribe(id, {any: refresh});
-        subscriptions.push(() => bag.unsubscribe(id));
+        subscriptions.push(() => bag.unsubscribe(id, {any: true}));
         builder.data.subscribe(id, {any: refresh});
-        subscriptions.push(() => builder.data.unsubscribe(id));
+        subscriptions.push(() => builder.data.unsubscribe(id, {any: true}));
     }
     let disposed = false;
-    return {app, shortcuts, dispose() {
+    const tool = {app, shortcuts, dispose() {
         if (disposed) return;
         disposed = true;
         shortcuts.dispose();
         subscriptions.forEach(dispose => dispose());
         button.removeEventListener('click', toggle);
+        app.dispose();
         mount.remove();
     }};
+    page.dev.inspector = tool;
+    return tool;
 }

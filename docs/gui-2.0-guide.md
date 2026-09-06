@@ -417,3 +417,23 @@ source-node callback context only where the callback contract defines it; do not
 assume every widget or drag callback has the same this. The ownership proposal is
 accepted for an implementation trial; public signatures and detailed timing
 remain proposals, and its future services are not available today.
+
+
+## Page and developer-tool disposal
+
+`genro.dispose()` ends a mounted page runtime. It removes its delegated DOM
+listeners, data/source observers and queued work, and releases its developer
+tools. Repeated calls are safe. Retained data and source Bags remain readable;
+external Bag observers and independent page instances are not disposed.
+
+The current developer owner is `genro.dev`. Its `inspector` and `playground`
+properties refer to actual mounted tools. Existing `mountInspector` and
+`mountPlayground` entry points attach them to that owner. Inspector replacement
+removes its shortcut and Bag observers. Playground rebuild disposes only the
+previous experiment; the outer Python recipe and editor remain active.
+
+Bootstrap captures each Application locally and ignores obsolete asynchronous
+page/tool responses. An old response cannot install an inspector on a replacement
+page. This is local runtime ownership, not a definition of server identity,
+WebSocket routing, ready/onStart ordering or arbitrary source-subtree lifetime.
+Those contracts remain separate work. There is no generic plugin registry.

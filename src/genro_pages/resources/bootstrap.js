@@ -4,9 +4,12 @@ import {Application, HtmlBuilder} from 'genro-dom-js';
 import {fromTytx} from 'genro-tytx';
 import {highlightRecipes} from './recipe-highlight.js';
 import {mountInspector} from './inspector.js';
-let inspector;
+let generation = 0;
 
-async function renderPage(transport) {
+export async function renderPage(transport) {
+    const ticket = ++generation;
+    let app;
+    const current = () => ticket === generation && !app?._disposed; // wf:phase-2:new
     try {
         const query = new URLSearchParams({transport});
         const selected = new URLSearchParams(location.search).get('page');
@@ -16,31 +19,39 @@ async function renderPage(transport) {
         if (!response.ok) { throw new Error(`main: HTTP ${response.status}`); }
         const payload = transport === 'msgpack'
             ? new Uint8Array(await response.arrayBuffer()) : await response.text();
+        if (!current()) return;
         const source = fromTytx(payload, transport);
         const Builder = selected === 'playground'
             ? (await import('./playground-page.js')).PlaygroundBuilder
             : selected?.startsWith('widgets/')
             ? (await import('./gallery.js')).GalleryBuilder : HtmlBuilder;
+        if (!current()) return;
         const builder = new Builder('main');
         const root = document.getElementById('root');
         const freshRoot = root.cloneNode(false);
+        window.genro?.dispose();
         root.replaceWith(freshRoot);
         document.getElementById('error').hidden = true;
         builder.loadSource(source);
-        window.genro = new Application(document.getElementById('root'), builder);
+        app = new Application(freshRoot, builder);
+        window.genro = app;
         window.page = builder;
-        inspector?.dispose();
         const inspectorResponse = await fetch('/inspector');
+        if (!current()) return;
         if (!inspectorResponse.ok) throw new Error('Inspector: HTTP ' + inspectorResponse.status);
-        inspector = mountInspector(document.getElementById('developer-tools'),
-            fromTytx(await inspectorResponse.text(), 'json'), window.genro);
+        const inspectorSource = fromTytx(await inspectorResponse.text(), 'json');
+        if (!current()) return;
+        mountInspector(document.getElementById('developer-tools'), inspectorSource, app);
         if (selected === "playground") {
             const {mountPlayground} = await import("./playground.js");
-            await mountPlayground(document.getElementById("root"), window.genro);
+            if (!current()) return;
+            await mountPlayground(freshRoot, app);
         }
-        void highlightRecipes(document.getElementById('root'));
+        if (!current()) return;
+        void highlightRecipes(freshRoot);
         document.getElementById('source-xml').textContent = builder.source.toXml({pretty: true});
     } catch (error) {
+        if (!current()) return;
         const message = document.getElementById('error');
         message.hidden = false;
         message.textContent = `Unable to load the page: ${error.message}`;

@@ -18,14 +18,17 @@ class EmptyPage extends GalleryBuilder {
 
 export class LabSession {
     constructor(host, onChange) {
+        this.disposed = false;
         this.host = host;
         this.onChange = onChange;
         this.reset();
     }
     reset(code = INITIAL_CODE) {
+        if (this.disposed) return;
         if (this.app) {
             this.app.builder.data.unsubscribe('lab-inspector', {any: true});
             this.app.builder.source.unsubscribe('lab-inspector', {any: true});
+            this.app.dispose();
         }
         const target = document.createElement('div');
         this.host.replaceChildren(target);
@@ -34,14 +37,22 @@ export class LabSession {
         this.app.builder.source.subscribe('lab-inspector', {any: () => this.onChange(this)});
         this.run(code);
     }
+    dispose() { // wf:phase-2:new
+        if (this.disposed) return;
+        this.disposed = true;
+        this.app.builder.data.unsubscribe('lab-inspector', {any: true});
+        this.app.builder.source.unsubscribe('lab-inspector', {any: true});
+        this.app.dispose();
+    }
     run(code) {
+        if (this.disposed) return;
         // Deliberate local developer console: code has normal browser privileges.
         const execute = new Function('root', 'data', 'source', 'builder', 'app', 'Bag', '"use strict";\n' + code);
         try {
             this.app.live(() => execute(this.app.root, this.app.builder.data,
                 this.app.builder.source, this.app.builder, this.app, Bag));
         } finally {
-            this.onChange(this);
+            if (!this.disposed) this.onChange(this);
         }
     }
 }

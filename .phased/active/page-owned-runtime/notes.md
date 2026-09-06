@@ -28,3 +28,23 @@ ruff check tests/test_runtime_disposal.py passed; diff whitespace checks passed.
 Plan contract fields and original contract skeletons are unchanged. Tests use
 real JS DOM/Bag/builder objects; the full pages suite also retains Python/TYTX
 JSON and MessagePack integration coverage. No live-browser UI changes in Phase 1.
+
+## Phase 2
+
+Owner approved the execution scope including Application.dispose calling the real genro.dev owner. No generic lifecycle/plugin framework is introduced.
+
+Implementation complete: genro.dev owns the mounted inspector and playground;
+Application disposal closes that owner. Inspector teardown now uses Bag's required
+{any: true} unsubscribe selector. Laboratory reset disposes only its old experiment.
+Bootstrap checks request generation and captured instance after asynchronous steps.
+
+Validation: full pages suite 74 passed; DOM 128 passed; ruff check src tests passed.
+Three new consumer contracts run against real Python/TYTX recipes in JSON and
+MessagePack. Controlled delayed inspector responses cover both page replacement
+and explicit page disposal while waiting. Existing nested tabs and inspector
+remount regressions remain green. Original skeleton names/comments are unchanged.
+
+Browser check on localhost: initial example rendered with CodeMirror; two rebuilds
+worked; Ctrl+Shift+D opened one inspector; switching to MessagePack preserved one
+working inspector and updated navigation transport. No browser errors. Human
+Verify remains the authored judgment of familiar interaction and unchanged look.

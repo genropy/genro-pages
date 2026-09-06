@@ -13,7 +13,7 @@ until the runtime boundaries are clear. Each step keeps the existing gallery usa
 | genro.src | Source identity, lookup, node lifecycle and recipe construction | Planned; exact legacy signatures need tests |
 | genro.dom | DOM lookup/adapters, focus and geometry | Planned; not a duplicate renderer |
 | genro.wdg | Collection registration and widget adapters | Planned facade over existing collections |
-| genro.dev | Inspector and developer commands | Next ownership migration |
+| genro.dev | Mounted inspector, its shortcut and laboratory experiment | Implemented page-owned disposal |
 | genro.rpc | Transport-independent RPC lifecycle | Pending builder contract and transport integration |
 | genro.dlg / genro.vld | Dialog and validation services | Later, when real responsibilities are implemented |
 
@@ -124,3 +124,18 @@ Macro 3 consumes the lifecycle seam for builder-generated bootstrap; Macro 4
 consumes source context for compiler/providers. Mobile and root/iframe ownership
 remain constraints throughout. Runtime conformance tests must exercise actual
 behavior; the audit's schema tests only check the research record.
+
+
+## Implemented first ownership slice
+
+The `page-owned-runtime` implementation provides idempotent `Application.dispose()`
+and a concrete `genro.dev` owner. Inspector and playground helpers retain their
+entry points; they register their mounted instance on the page owner. Disposal
+removes tool listeners/subscriptions and recursively closes the experiment and
+inspector Applications. Rebuilding an experiment leaves the outer page alive.
+Bootstrap uses request generations and local Application references to reject
+late page/tool responses after replacement or disposal.
+
+This slice does not implement initialize/ready/onStart parity, general source
+subtree cleanup, connect interception, remote providers or server/iframe identity.
+The larger ownership tree above remains a proposal outside these concrete tools.

@@ -29,7 +29,7 @@ references after disposal for diagnosis; do not add speculative service facades.
   > Review: Read-only review found component-controller and in-flight-render reentrancy gaps; both fixed and covered by behavioral regressions. DOM dependency commit 4ccf4f2; prior baseline checkpoint 3ef702a. Naming accepted by owner.
   > Verify: Automated checks cover this phase; no manual UI check required. Consumer integration remains Phase 2.
 
-- [ ] **Phase 2**: Make laboratory and inspector use page ownership
+- [>] **Phase 2**: Make laboratory and inspector use page ownership
   - Run: opus / medium
   - Pattern: `src/genro_pages/resources/inspector.js:mountInspector`, `src/genro_pages/resources/lab-session.js:LabSession.reset`; `tests/inspector.mjs` and `tests/playground.mjs` actual Python/TYTX fixtures.
   - Files: `src/genro_pages/resources/bootstrap.js`, `inspector.js`, `lab-session.js`, `playground.js`; new `dev.js` only if needed for the real developer-tool owner; `tests/inspector.mjs`, `tests/playground.mjs`, new `tests/test_runtime_consumers.py` and fixture; `docs/gui-2.0-guide.md`, `docs/architecture/runtime-reorganization-plan.md`.
