@@ -75,3 +75,10 @@ launched by pytest, following existing tests; no skipped or tautological tests.
 The only new public entry fixed in Phase 1 is dispose(). Phase 2 exposes the
 real tool owner at genro.dev, not a speculative namespace. Report a costly API
 ambiguity at the phase gate before implementing it.
+
+## Quality check
+
+> Quality check: 2026-09-06T19:17:37.737872+00:00 — commit 2789431 — review light, QA done, findings 1 confirmed, 0 dismissed, final touch 1 correction
+
+One confirmed finding corrected and independently verified; no residual findings.
+Scope and dependency revisions are recorded under Final touch in notes.md.

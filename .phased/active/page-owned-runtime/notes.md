@@ -58,7 +58,7 @@ Human Verify accepted: the owner reported “sembra ok” after the browser inte
 Review depth: Light, selected by the owner. Reviewed pages revision:
 8d03a2285ac6e5bbddb8cdbaea0634d4995a2af1, base e11dc4e.
 Covered DOM dependency: 3ef702a..f743e6c, excluding prior baseline widget work.
-Correction revision: pending this commit; resolved by the quality stamp below.
+Correction revision: 2789431; verification covers exactly this correction delta.
 
 | Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
 |---|---|---|---|---|
