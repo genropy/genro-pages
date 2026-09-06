@@ -149,7 +149,10 @@ HtmlBuilder. Existing HTTP recipe and inspector endpoints remain separate.
 The runtime ownership fixtures now consume Python-generated HTML, and startup
 contracts cover arbitrary registration names and both TYTX transports.
 
-This is not yet a verified completion: genro-builders issue #39 blocks document
-creation because its details grammar admits summary only. Keep the phase open
-until that dependency is fixed and the full integration and browser checks pass.
-No sibling source changes or alternative HTML renderer were introduced.
+The dependency is resolved in genro-builders 0.23.2 (#39). All 80 pages tests
+pass, including the six bootstrap contracts and the ownership scenarios, and
+browser startup/navigation/transport/inspector checks pass. The phase remains
+open for the owner's visual acceptance. The dependency checkout was updated by
+fast-forward while preserving local SourceBag changes; no workaround renderer
+was introduced. Issue #38 was closed without a core change: pages can declare
+dataRpc through the existing data-element extension mechanism in a later slice.

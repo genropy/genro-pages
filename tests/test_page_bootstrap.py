@@ -12,7 +12,6 @@ from unittest.mock import patch
 
 from genro_asgi import AsgiServer
 from genro_bag import Bag
-from genro_tytx import from_tytx
 
 from genro_pages.application import WebpageApplication
 from genro_pages.demo import DemoApplication
@@ -27,7 +26,7 @@ from tests.test_runtime_consumers import TestRuntimeOwnership as RuntimeChecks
 
 class BootstrapChecks(RequestSupport):
     def get_response(self, application, path="/", **query):  # wf:phase-1:new
-        return asyncio.run(self.request(AsgiServer(applications=[application]), path,
+        return asyncio.run(self.request(application.server or AsgiServer(applications=[application]), path,
                                         query=urlencode(query).encode()))
 
     def get_document(self, application, **query):  # wf:phase-1:new
@@ -133,7 +132,7 @@ class TestPageBootstrap:
         assert parse_qs(urlparse(link["href"]).query) == {"page": ["a b/Ω&x"], "transport": ["msgpack"]}
         response, body = check.get_response(app, "/menu")
         assert response["status"] == 200
-        menu = from_tytx(body.decode(), "json")
+        menu = Bag.from_tytx(body.decode(), transport="json")
         assert menu.nodes[0].value.nodes[0].attr["filepath"] == "a b/Ω&x"
         assert not check.get_client_result(check.get_document(HelloWorldPage(client_modules=check.modules)))["links"]
 

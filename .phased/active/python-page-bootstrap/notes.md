@@ -45,3 +45,26 @@ Next: after #39 lands, run all six contracts and the complete pages suite,
 resolve any newly exposed integration defects, exercise the browser, and
 complete the authored human Verify check. No completion or browser success is
 claimed by this checkpoint.
+
+
+### Dependency resolved and full integration verified
+
+Owner reported #38/#39 closed. #39 is d98b737, included in builders main
+c6e4684 (0.23.2); dependency worktree advanced from fe28309 by fast-forward,
+preserving its existing SourceBag tracked/untracked edits. #38 is NOT_PLANNED:
+core confirms a downstream pages data-element mixin suffices; no RPC declaration
+or transport was added in this phase.
+
+Full test run exposed two fixture defects: re-registering the same application
+on multiple servers, fixed by reusing application.server; menu endpoint decoded
+through generic from_tytx instead of the existing Bag.from_tytx pattern, fixed
+without changing any contract or assertion. Full result: 80 passed. Prior DOM
+suite: 128 passed, unchanged DOM source. Browser: restarted local server at
+8010 with updated Python sources; laboratory loaded, rebuild clicked, switched
+to MessagePack, Ctrl+Shift+D opened actual inspector, navigated through menu to
+Hello World and textBox, opened the XML disclosure. No application error was
+shown; Node startup contracts explicitly capture console.error and assert none.
+The CUA surface used did not provide a separate browser-console log capture.
+
+Remaining: owner's authored visual/interaction acceptance and naming review,
+then close-phase. No ready/server identity/RPC additions.
