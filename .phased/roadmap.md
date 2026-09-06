@@ -29,7 +29,7 @@ after Macro 1 evidence and API proposals have been reviewed.
 
 ## Macro 3 — Python-generated bootstrap (document/configuration slice completed)
 
-Completed implementation: active/python-page-bootstrap/plan.md (workflow finalization pending). Registered identity and
+Archived workflow: done/python-page-bootstrap/plan.md. Registered identity and
 readiness remain separate prerequisites for the full macro outcome.
 
 Requires ownership/readiness from Macro 2 and the approved ASGI identity seam.
