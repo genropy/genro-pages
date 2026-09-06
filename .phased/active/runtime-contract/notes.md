@@ -92,3 +92,21 @@ These are observed implementation defects, not future feature requests. A
 concurrent-bootstrap race was not reproduced and is not a confirmed finding.
 Documentary QA approval is not a new browser/mobile QA pass for this checkpoint.
 No clean finalization claim applies to the checkpoint until findings are resolved.
+
+## Checkpoint final touch
+
+Reviewed revision: 39e634c (base 75d1898), findings recorded at b62c99a.
+Owner approved both fixes together. Correction revision: this commit in pages;
+dependency correction genro-dom-js 358ca59 (only one line staged, unrelated
+existing library changes preserved).
+
+| Root cause | Correction | Verification | Outcome |
+| --- | --- | --- | --- |
+| gnr-set bubbled past its owning Application | Stop propagation at the Application command boundary | Python/TYTX playground test clicks a real inner tab and asserts outer experiment.page is absent | Fixed, independent verification pending |
+| Inspector reused a host with stale Application listeners | Private removable mount, mount-scoped queries and idempotent disposal | Remount real inspector, select a tree leaf, assert old data unchanged; dispose old instance again and retain replacement | Fixed, independent verification pending |
+
+Both regression tests failed before fixes. After fixes: 68 Python integration
+tests, 128 DOM tests, Ruff src/tests pass. Python test environment uses documented
+sibling source PYTHONPATH. No new public API, no broad lifecycle implementation,
+no dependency-version changes. The audit JSON file hashes describe the earlier
+inspected snapshot; the Application hash now intentionally differs by this fix.

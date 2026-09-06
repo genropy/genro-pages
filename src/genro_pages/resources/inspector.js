@@ -8,16 +8,18 @@ import {Shortcuts} from './shortcuts.js';
 export function mountInspector(host, source, page) {
     const builder = new GalleryBuilder('inspector');
     builder.loadSource(source);
-    const app = new Application(host, builder);
+    const mount = document.createElement('div');
+    host.append(mount);
+    const app = new Application(mount, builder);
     const shortcuts = new Shortcuts(host.ownerDocument);
     const toggle = () => app.live(() => builder.data.setItem('opened', !builder.data.getItem('opened')));
     shortcuts.register('inspector.toggle', 'ctrl+shift+d', toggle, {allowEditing: true});
-    const button = host.querySelector('[data-inspector="toggle"]');
+    const button = mount.querySelector('[data-inspector="toggle"]');
     button.addEventListener('click', toggle);
     const subscriptions = [];
     for (const kind of ['data', 'source']) {
         const bag = page.builder[kind];
-        const tree = host.querySelector(`[data-inspector="${kind}"]`);
+        const tree = mount.querySelector(`[data-inspector="${kind}"]`);
         tree.storeBag = bag;
         const refresh = () => {
             const path = builder.data.getItem(kind + 'Path');
@@ -37,10 +39,13 @@ export function mountInspector(host, source, page) {
         builder.data.subscribe(id, {any: refresh});
         subscriptions.push(() => builder.data.unsubscribe(id));
     }
+    let disposed = false;
     return {app, shortcuts, dispose() {
+        if (disposed) return;
+        disposed = true;
         shortcuts.dispose();
         subscriptions.forEach(dispose => dispose());
         button.removeEventListener('click', toggle);
-        host.replaceChildren();
+        mount.remove();
     }};
 }

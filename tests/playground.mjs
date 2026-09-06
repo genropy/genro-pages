@@ -71,3 +71,7 @@ const autoInput = lab.querySelector('[data-lab="lab-auto"]').shadowRoot.querySel
 autoInput.checked = true;
 autoInput.dispatchEvent(new Event('change', {bubbles: true}));
 assert.equal(ui.builder.data.getItem('auto'), true);
+experiment.reset("data.setItem('page', 'first'); const tabs = root.tabContainer({selectedPage: '^page'}); tabs.contentPane({pageName: 'first', title: 'First'}); tabs.contentPane({pageName: 'second', title: 'Second'});");
+previewNode.querySelector('gnr-tabcontainer').shadowRoot.querySelector('[data-key="second"]').click();
+assert.equal(experiment.app.builder.data.getItem('page'), 'second');
+assert.equal(ui.data.getItem('experiment.page'), null, 'preview commands must stay in their owning Application');
