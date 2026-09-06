@@ -110,3 +110,10 @@ tests, 128 DOM tests, Ruff src/tests pass. Python test environment uses document
 sibling source PYTHONPATH. No new public API, no broad lifecycle implementation,
 no dependency-version changes. The audit JSON file hashes describe the earlier
 inspected snapshot; the Application hash now intentionally differs by this fix.
+
+Checkpoint correction verification: fresh reviewer checked pages
+b62c99a..3087485 and DOM358ca59; independently reran the two focused Python
+regressions (2 passed). Both defects resolved, no residual within the reviewed
+scope. This does not establish general Application disposal or garbage collection.
+Full checkpoint review and correction evidence now covers the previously
+uncommitted pages implementation; sibling uncommitted work remains external.

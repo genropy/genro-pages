@@ -70,3 +70,10 @@ Residual: one RPC evidence anchor needs its full signature and correct line; see
 
 Supersedes the diagnostic result above: the residual RPC anchor is corrected
 and independently verified. No outstanding findings within this workflow.
+
+> Quality check: 2026-09-06T18:34:57.809759+00:00 — commit 3087485 — review extended, QA done, findings 2 confirmed, 0 dismissed, final touch 2 corrections
+
+Checkpoint review extension: both implementation defects resolved and independently
+verified; 68 Python and 128 DOM tests pass. Depends on genro-dom-js 358ca59 plus
+the existing local sibling development state. Earlier documentary review remains
+valid for its recorded scope. No outstanding confirmed findings.
