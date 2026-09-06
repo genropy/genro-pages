@@ -10,8 +10,12 @@ from pathlib import Path
 
 from genro_asgi import HTTPBadRequest, HTTPNotFound, Response, RoutedApplication
 from genro_builders.contrib.html.html_builder import HtmlBuilder
+from genro_bag import Bag
 from genro_routes import route
 from genro_tytx import to_tytx
+
+from .page import WebPage
+from .page_document import PageDocument
 
 
 class WebpageApplication(RoutedApplication):
@@ -102,8 +106,31 @@ class WebpageApplication(RoutedApplication):
 
     @route(media_type="text/html")
     def index(self, page=None, transport="json"):
-        """Serve the shell; the browser forwards page/transport to recipe requests."""
-        return (self.resources / "index.html").read_text()
+        """Build the document and typed startup configuration on the server."""
+        if transport not in ("json", "msgpack"):
+            raise HTTPBadRequest("Supported transports: json, msgpack")
+        selected = page if page is not None else self.default_page
+        page_class = self.pages.get(selected) if self.pages else type(self)
+        if page_class is None or (not self.pages and page is not None):
+            raise HTTPNotFound("Unknown page")
+        startup = Bag(dict(page=selected, transport=transport,
+                           source_inspection=getattr(page_class, "source_inspection", True),
+                           endpoints=Bag(dict(main="/main", inspector="/inspector")),
+                           hosts=Bag(dict(root="root", tools="developer-tools", error="error",
+                                          source="source-xml", inspection="source-inspector"))))
+        for name, default in (("client_builder", WebPage.client_builder), ("client_setup", None)):
+            descriptor = getattr(page_class, name, default)
+            startup.set_item(name, Bag(dict(module=descriptor[0], export=descriptor[1]))
+                             if descriptor is not None else None)
+        menu = None
+        if self.menu_class is not None:
+            menu_builder = self.menu_class()
+            menu_builder.create()
+            menu = menu_builder.source
+            self.validate_menu(menu)
+        document = PageDocument(startup, menu)
+        document.create()
+        return "<!doctype html>\n" + document.render(target=False, xml=False)
 
     async def __call__(self, scope, receive, send):
         path = scope.get("path", "")

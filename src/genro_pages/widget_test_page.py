@@ -13,6 +13,7 @@ from .widget_test_builder import WidgetTestBuilder
 
 class WidgetTestPage(WebPage):
     source_builder = WidgetTestBuilder
+    client_builder = ("/_assets/pages/gallery.js", "GalleryBuilder")
     widget_tag = ""
     collection = ""
 

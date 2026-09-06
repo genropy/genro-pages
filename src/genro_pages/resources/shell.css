@@ -1,21 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Genro Pages · Laboratory</title>
-<script type="importmap">
-{"imports": {
-  "genro-dom-js": "/_assets/dom/index.js",
-  "genro-bag-js": "/_assets/bag/index.js",
-  "genro-tytx": "/_assets/tytx/index.js",
-  "@msgpack/msgpack": "/_assets/msgpack/index.mjs",
-  "module": "/_assets/pages/module.js",
-  "@xmldom/xmldom": "/_assets/pages/xmldom.js"
-}}
-</script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
-<style>
 body {font: 17px/1.6 system-ui, sans-serif; margin: 0; background: #f4f6f8; color: #182534}
 * {box-sizing: border-box}
 body {display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh}
@@ -56,16 +38,3 @@ details {margin-top: 24px} pre {white-space: pre-wrap; overflow-wrap: anywhere; 
 .lab-editor .cm-scroller {overflow:auto}
 .lab-columns pre {max-height:350px; overflow:auto; background:white; padding:12px}
 @media(max-width:1000px) {.lab-columns {grid-template-columns:1fr}}
-</style>
-<link rel="stylesheet" href="/_assets/pages/theme.css">
-</head>
-<body>
-<nav id="page-menu" aria-label="Pages"></nav>
-<main>
-<nav aria-label="Transport"><button data-transport="json">TYTX JSON</button> · <button data-transport="msgpack">TYTX MessagePack</button></nav>
-<div id="root" aria-live="polite"></div>
-<div id="developer-tools"></div>
-<p id="error" hidden></p>
-<details id="source-inspector"><summary>JavaScript source · XML</summary><pre id="source-xml"></pre></details>
-</main><script type="module" src="/_assets/pages/bootstrap.js"></script></body>
-</html>

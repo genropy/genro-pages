@@ -6,6 +6,9 @@ from ..widget_test_builder import WidgetTestBuilder
 
 class PlaygroundPage(WebPage):
     source_builder = WidgetTestBuilder
+    client_builder = ("/_assets/pages/playground-page.js", "PlaygroundBuilder")
+    client_setup = ("/_assets/pages/playground.js", "mountPlayground")
+    source_inspection = False
 
     def main(self, root):
         root.h1("JavaScript laboratory")

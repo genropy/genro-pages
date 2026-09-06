@@ -5,6 +5,10 @@
 class WebPage:
     """Subclass with ordinary Python inheritance."""
 
+    client_builder = ("genro-dom-js", "HtmlBuilder")
+    client_setup = None
+    source_inspection = True
+
     def main(self, root):
         """Populate the source tree."""
         raise NotImplementedError
