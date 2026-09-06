@@ -21,6 +21,7 @@ readiness remain a separate ASGI integration block.
 
 - [>] **Phase 1**: Generate the page document and drive startup from typed configuration
   > In execution since 2026-09-06T19:48:58.833405+00:00
+  > WIP: done: initial Python document and typed startup implementation, ruff green | missing: details grammar capability, contract bodies, runtime fixtures, suites, browser checks and documentation | next: authorize bounded builders grammar correction; initial HTML currently fails | commit: f66c4ee
   - Run: opus / high
   - Pattern: sibling `genro-builders/tests/test_html_attrs.py:_render` verifies `HtmlBuilder.create()` and `render(target=False)`; `tests/test_hello_world.py:RequestSupport` and `tests/test_runtime_consumers.py:TestRuntimeOwnership._check` exercise ASGI responses and real Python/TYTX recipes in JavaScript.
   - Files: new `src/genro_pages/page_document.py`; `src/genro_pages/application.py`, `page.py`, `widget_test_page.py`, `pages/playground.py`; `resources/bootstrap.js`, new `resources/shell.css`, replace/remove the obsolete static `resources/index.html`; existing `resources/gallery.js`, `playground-page.js` and `playground.js` only if metadata integration requires it; new `tests/test_page_bootstrap.py` and JS fixture, `tests/test_hello_world.py`, `tests/test_runtime_consumers.py`, `tests/runtime_consumers.mjs`; `docs/gui-2.0-guide.md`, `docs/architecture/runtime-reorganization-plan.md`.
