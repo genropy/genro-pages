@@ -52,3 +52,33 @@ Verify remains the authored judgment of familiar interaction and unchanged look.
 Dependency commit: genro-dom-js f743e6c. Pages implementation checkpoint: af3e883.
 
 Human Verify accepted: the owner reported “sembra ok” after the browser interaction check. The owner accepted all proposed Phase 2 names; markers removed.
+
+## Final touch
+
+Review depth: Light, selected by the owner. Reviewed pages revision:
+8d03a2285ac6e5bbddb8cdbaea0634d4995a2af1, base e11dc4e.
+Covered DOM dependency: 3ef702a..f743e6c, excluding prior baseline widget work.
+Correction revision: pending this commit; resolved by the quality stamp below.
+
+| Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
+|---|---|---|---|---|
+| P2: real Python/TYTX laboratory throws on disposal after host removal; old disposal clears replacement button handlers on shared host | Teardown queries mutable host rather than owned controls | Register all four commands with existing listen helper, retaining exact elements and callbacks | Removed-content and same-host replacement regressions, JSON and MessagePack; real rebuild click | Confirmed, corrected |
+
+The owner approved one correction batch. No new callable or naming decision was
+introduced. Prior phase reentrancy findings remain fixed and covered; no remaining
+naming markers. Explicit HTML-ID patching predates the reviewed DOM baseline and
+is outside this work. General source-subtree lifetime and ready/onStart remain
+expressly deferred; this completes the approved first ownership slice, not all
+of Macro 2 or the future bootstrap macro. No acceptance contract was modified.
+
+Checks after correction: focused consumers/playground 4 passed; full pages 74
+passed; ruff check src tests passed; git diff --check passed. DOM suite 128 passed
+at closing revision f743e6c and no DOM changes followed. Fresh independent delta
+review found no residual defects and independently ran consumer tests (3 passed,
+both transports). Browser smoke after reload: Rebuild and Reset update status
+and work; no console errors. The owner's earlier QA approval remains applicable;
+there is no visual redesign or new interaction to approve.
+
+Final disposition: one confirmed finding corrected, no residual findings, no
+risk acceptance required. Independent reviewers were separate from the author;
+first reviewed the complete integration scope, second only the correction delta.

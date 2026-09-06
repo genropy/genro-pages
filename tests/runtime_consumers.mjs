@@ -12,8 +12,8 @@ const payload = JSON.parse(readFileSync(0, 'utf8'));
 const decode = value => fromTytx(payload.transport === 'msgpack'
     ? new Uint8Array(Buffer.from(value, 'base64')) : value, payload.transport);
 class Checks {
-    mount() {
-        const host = document.createElement('div'); document.body.append(host);
+    mount(host = document.createElement('div')) {
+        if (!host.isConnected) document.body.append(host);
         const builder = new PlaygroundBuilder('main'); builder.loadSource(decode(payload.page));
         return new Application(host, builder);
     }
@@ -43,6 +43,27 @@ class Checks {
         tool.session.reset();
         assert.equal(tool.session.app, experiment);
         assert.equal(page.target.root.childNodes.length, 0);
+        // Cleanup must use original controls even when recipe output disappeared.
+        const removed = this.mount();
+        const removedTool = await mountPlayground(removed.target.root, removed);
+        removed.target.root.replaceChildren();
+        assert.doesNotThrow(() => removed.dispose());
+        assert.equal(removedTool.session.app._disposed, true);
+        assert.equal(removed.handler._disposed, true);
+        // The old owner must not disconnect a new page using the same host.
+        const oldPage = this.mount();
+        const oldTool = await mountPlayground(oldPage.target.root, oldPage);
+        const next = this.mount(oldPage.target.root);
+        const nextTool = await mountPlayground(next.target.root, next);
+        const priorExperiment = nextTool.session.app;
+        oldPage.dispose(); oldPage.dispose();
+        assert.equal(oldTool.session.app._disposed, true);
+        next.target.root.querySelector('[data-lab="lab-rebuild"]').click();
+        assert.equal(priorExperiment._disposed, true);
+        assert.notEqual(nextTool.session.app, priorExperiment);
+        assert.equal(nextTool.session.app._disposed, false);
+        assert.equal(next.builder.data.getItem('status'), 'Example rebuilt from code.');
+        next.dispose();
     }
     inspector() {
         const page = this.mount(), peer = this.mount();

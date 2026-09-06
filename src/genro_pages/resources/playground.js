@@ -31,20 +31,20 @@ export async function mountPlayground(host, ui) {
         try { session.reset(node('lab-code').value); set('status', 'Example rebuilt from code.'); }
         catch (error) { set('status', `${error.name}: ${error.message}`); }
     };
-    node('lab-rebuild').onclick = rebuild;
-    node('lab-apply').onclick = () => {
+    listen(node('lab-rebuild'), 'click', rebuild);
+    listen(node('lab-apply'), 'click', () => {
         try { session.run(node('lab-code').value); set('status', 'Code applied to the current Bags.'); }
         catch (error) { set('status', `${error.name}: ${error.message} (changes already applied are retained)`); }
-    };
-    node('lab-example').onclick = () => {
+    });
+    listen(node('lab-example'), 'click', () => {
         set('code', CHANGE_CODE);
         set('status', 'Example loaded: click Apply to current example.');
-    };
-    node('lab-reset').onclick = () => {
+    });
+    listen(node('lab-reset'), 'click', () => {
         session.reset();
         set('code', INITIAL_CODE);
         set('status', 'Initial example restored.');
-    };
+    });
     listen(node('lab-code'), 'focusout', event => {
         if (!builder.data.getItem('auto') || node('lab-code').contains(event.relatedTarget)) { return; }
         if (node('lab-toolbar').contains(event.relatedTarget)) { return; }
@@ -55,9 +55,6 @@ export async function mountPlayground(host, ui) {
         if (disposed) return;
         disposed = true;
         listeners.forEach(remove => remove());
-        for (const name of ['lab-rebuild', 'lab-apply', 'lab-example', 'lab-reset']) {
-            node(name).onclick = null;
-        }
         session.dispose();
     }};
     ui.dev.playground = tool;
