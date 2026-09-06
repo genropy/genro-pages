@@ -80,3 +80,22 @@ independent write-back. No code correction was required for that report.
 
 The implementation phase is closed. Workflow quality-check and finalization
 remain separate steps; no merge, push or history consolidation performed.
+
+## Final touch
+
+Reviewed revision: 961dca1; base e1b0d6f. Independent read-only Light review
+by bootstrap_light_review. User QA done and names accepted; no markers remain.
+Owner approved the following batch. Correction revision: pending commit.
+
+| Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
+|---|---|---|---|---|
+| P2: pyproject permitted builders 0.23.0/0.23.1; PageDocument adds details/pre, rejected before d98b737 | Required minimum not raised after #39 | Require builders >=0.23.2; package installation consumers | Parse dependency requirement; bootstrap contracts | Corrected, independent verification pending |
+| Guide and roadmap said planned/pending visual acceptance | Closure status not propagated | Update only bootstrap status, preserving later ASGI/RPC boundaries | Compare against closed phase and user QA | Corrected, independent verification pending |
+
+Coverage: Python document, safe inert TYTX, registered client descriptors,
+menu encoding, JSON/MessagePack and asynchronous ownership guards; dependency
+builders c6e4684 plus existing SourceBag edits, DOM f743e6c. The transport-menu
+completion race is unchanged baseline, outside this correction; no new runtime
+regression confirmed. Broader RPC, registered identity, source-subtree hooks and
+root/iframe transport remain future work. The separately requested ASGI 0.43.0
+browser proof is suspended by the owner and not part of this quality verdict.

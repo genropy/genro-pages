@@ -469,7 +469,8 @@ The full bootstrap contracts pass with genro-builders 0.23.2, including its
 correction for [#39](https://github.com/genropy/genro-builders/issues/39).
 The XML panel retains native `details > summary + pre` markup. Browser checks
 cover the laboratory, Hello World, a widget page, transport switching and the
-inspector shortcut. Final visual acceptance remains the owner's check.
+inspector shortcut. The owner confirmed visual and interaction acceptance;
+workflow quality-check and finalization are recorded separately in the plan.
 
 The resolution of [#38](https://github.com/genropy/genro-builders/issues/38)
 places the future `dataRpc` declaration in a pages-specific mixin using the

@@ -151,8 +151,8 @@ contracts cover arbitrary registration names and both TYTX transports.
 
 The dependency is resolved in genro-builders 0.23.2 (#39). All 80 pages tests
 pass, including the six bootstrap contracts and the ownership scenarios, and
-browser startup/navigation/transport/inspector checks pass. The phase remains
-open for the owner's visual acceptance. The dependency checkout was updated by
+browser startup/navigation/transport/inspector checks pass. The owner accepted
+the visual and interaction checks, and the implementation phase is closed. The dependency checkout was updated by
 fast-forward while preserving local SourceBag changes; no workaround renderer
 was introduced. Issue #38 was closed without a core change: pages can declare
 dataRpc through the existing data-element extension mechanism in a later slice.
