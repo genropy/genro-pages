@@ -114,7 +114,8 @@ patches into the new runtime.
 ## Corrections to the implementation sequence
 
 Before further service facades, write lifecycle conformance fixtures for:
-1. resource readiness -> source build -> onBuilt -> page onStart;
+1. initial non-lazy construction and after-build scheduling, distinguished from
+   delayed _onBuilt execution and later lazy subtree construction;
 2. onCreated/action/controller/callback source-node this and relative paths;
 3. widget method connections versus DOM connections;
 4. source deletion, descendant cleanup, nodeId reuse and async cancellation;
@@ -127,7 +128,7 @@ patches to the existing demo bootstrap.
 
 ## Phase 1 completion — bounded findings
 
-Status: pending owner review. The machine-readable companion is
+Status: accepted for implementation trial; public signatures and detailed timing remain proposals. The machine-readable companion is
 [runtime-contract.json](runtime-contract.json), with file hashes and symbols for
 13 scenarios. These are source inspections, not a browser or real-device verdict.
 
@@ -150,3 +151,16 @@ FIRE must not be specified as merely a flagged write: legacy fireItem follows it
 with a silent null reset. getRelativeData's second argument also differs between
 legacy and new code (autocreate versus default value). Existing convenience names
 therefore do not establish complete signature or macro compatibility.
+
+## Quality-review clarification: readiness
+
+The legacy page-start timer does not wait for every _onBuilt callback. Numeric
+_onBuilt schedules another timeout in genro_src.stripData; _lazyBuild waits for
+visibility or _buildNow in gnrdomsource._doBuildNode. Therefore the earlier
+sequence must not be read as a universal completion barrier. An initially hidden
+lazy subtree may build after onStart or never build at all.
+
+Macro 2 must settle the exact participation of immediate hooks in readiness.
+Preserve authored delays and independent lazy-subtree lifecycles; do not block
+global startup on them. Verify a delay beyond startup and a never-visible lazy
+child, then reveal the child without repeating page startup.

@@ -124,7 +124,7 @@ Dojo loader configuration or viewport rules that disable zoom.
 
 ## Phase 1 decision surface
 
-Status: pending owner review. See [runtime-contract.json](runtime-contract.json)
+Status: accepted for implementation trial; public signatures and detailed timing remain proposals. See [runtime-contract.json](runtime-contract.json)
 for evidence, expected behavior and future verification steps for each scenario.
 
 Preserve: page-local ownership, relative authoring paths, source context where
@@ -139,3 +139,8 @@ The pending-callback rule intentionally strengthens the inspected legacy: a
 removed owner must not mutate a replacement when an asynchronous operation ends.
 Drop callbacks preserve source scope; widget internals and inspected drag
 callbacks are not automatically rebound.
+
+Legacy typed transport evidence is Bag.fromXmlDoc (typed-text conversion and
+recursive class reconstruction), GenroClient.clsdict (domsource versus bag), and
+rpc.resultHandler (XML response envelope decoding). fireItem establishes fired
+write/reset semantics only, not serialization. See the matrix for hashed paths.

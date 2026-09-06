@@ -415,4 +415,5 @@ approved authoring conventions from pending APIs. Continue using Python recipes,
 `.data`, small documented construction methods and English examples. Preserve
 source-node callback context only where the callback contract defines it; do not
 assume every widget or drag callback has the same this. The ownership proposal is
-under review and does not make its future services available today.
+accepted for an implementation trial; public signatures and detailed timing
+remain proposals, and its future services are not available today.

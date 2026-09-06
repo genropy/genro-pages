@@ -27,3 +27,20 @@ Baseline revisions:
 - genro-bag: 1b13b1ef15f8caa772275e5329a7e033af11bab4 (working tree changes recorded separately)
 
 Closure: owner said "proviamo a vedere se regge", accepting the proposal for an implementation trial. Re-ran 13 tests and lint, checked evidence hashes/symbols and unchanged contract blocks/copies. No naming markers or new production callables. This closes the audit, not the implementation.
+
+## Final touch
+
+Reviewed revision: 90ab79d (base 9f0c0bf). Review depth: extended, independent
+read-only reviewer. Human QA: done, organization accepted for implementation
+trial. No naming markers. Correction revision: this final-touch commit.
+
+| Finding and evidence | Root cause | Correction and consumers | Verification | Outcome |
+| --- | --- | --- | --- | --- |
+| Readiness matrix implied onBuilt completion before startup, including lazy children | Scheduling conflated with callback completion | Separate initial construction, delayed providers and lazy lifecycles; Macro 2 must settle exact immediate-hook ordering | Read genro_src onBuilt timeout and gnrdomsource lazy visibility gate; audit tests | Confirmed, corrected; independent delta verification pending |
+| Typed-transport legacy evidence pointed only at fireItem | Irrelevant evidence for serialization | Cite fromXmlDoc, clsdict and RPC resultHandler; typed-transport consumer | Verify symbols and file hashes | Confirmed, corrected; independent delta verification pending |
+| Documents still said pending review after acceptance | Status not synchronized with owner response | Record acceptance for trial, not public signatures or timing | Inspect document statuses | Confirmed, corrected; independent delta verification pending |
+
+Owner approved all three corrections in one batch. No source code or immutable
+plan contract fields/test copies changed. Checks: 13 audit tests pass, Ruff clean,
+33 evidence references checked for hashes and symbols. Runtime, physical-device
+and live WebSocket behavior remain outside this documentary workflow.

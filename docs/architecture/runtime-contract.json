@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "status": "pending owner review",
+  "status": "accepted for implementation trial; public signatures and detailed timing remain proposals",
   "repositories": {
     "legacy": {
       "root": "/Users/gporcari/Sviluppo/Genropy/genropy",
@@ -29,6 +29,24 @@
           "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
           "sha256": "0021b374f4208bc0bbc2e7966523e32eaa6ecc091452a014203d85071270c03e",
           "finding": "Page start is fired inside a delayed callback after startup; timer is mechanism, not readiness contract."
+        },
+        {
+          "repository": "legacy",
+          "path": "gnrjs/gnr_d11/js/genro_src.js",
+          "symbol": "if(onBuilt){",
+          "line": 703,
+          "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
+          "sha256": "4a14943802dfbcc4afc7c7927036fa47e6731e1b9a9b066c4d1716018803a41a",
+          "finding": "Numeric _onBuilt schedules a timeout from an after-build callback; its execution is not a page-readiness barrier."
+        },
+        {
+          "repository": "legacy",
+          "path": "gnrjs/gnr_d11/js/gnrdomsource.js",
+          "symbol": "if (this.attr._lazyBuild){",
+          "line": 1102,
+          "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
+          "sha256": "338bc733fe80b0a2854c4b89726b4e286f3061768acb50b58495ce02e308fd78",
+          "finding": "Lazy children wait for visibility or _buildNow before lazyBuildFinalize; page startup need not await them."
         }
       ],
       "current": [
@@ -42,10 +60,10 @@
           "finding": "Fetch, loadSource and Application construction precede inspector setup; no unified ready lifecycle."
         }
       ],
-      "expected": "Resources ready, source built, onBuilt, then page onStart; one ready notification per instance.",
+      "expected": "Page startup must distinguish initial non-lazy construction and after-build scheduling from delayed provider execution and lazy subtree construction. Delayed _onBuilt callbacks and initially hidden lazy children must not block global startup. Exact readiness participation and public hook timing are Macro 2 planning decisions; the legacy fixed timer is not the new contract.",
       "disposition": "adapt",
       "reason": "Replace the historical fixed delay with explicit completion.",
-      "verification": "Record lifecycle events with delayed resources; assert order and one onStart, including lazy children.",
+      "verification": "Record initial construction, immediate and delayed _onBuilt callbacks, and page onStart separately. Include an _onBuilt delay longer than startup and an initially hidden lazy child: startup must not wait for either; revealing the child builds its subtree without repeating page startup. Settle exact immediate-hook ordering in Macro 2 before implementation.",
       "validation": "Source inspection only; verification describes future conformance checks unless explicitly recorded elsewhere."
     },
     "source_callback_context": {
@@ -323,11 +341,29 @@
         {
           "repository": "legacy",
           "path": "gnrjs/gnr_d11/js/gnrbag.js",
-          "symbol": "fireItem:function",
-          "line": 1709,
+          "symbol": "fromXmlDoc: function",
+          "line": 2022,
           "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
           "sha256": "757477d92414dc4a864967286813d5dc11eb87846dd3fe40fafa49c1227c8538",
-          "finding": "Legacy Bag supports typed hierarchical data and fired changes; legacy XML is not new TYTX wire format."
+          "finding": "XML decoding converts typed text with convertFromText and recursively constructs nested Bags using the supplied class dictionary."
+        },
+        {
+          "repository": "legacy",
+          "path": "gnrjs/gnr_d11/js/genro.js",
+          "symbol": "this.clsdict =",
+          "line": 259,
+          "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
+          "sha256": "0021b374f4208bc0bbc2e7966523e32eaa6ecc091452a014203d85071270c03e",
+          "finding": "The class dictionary maps domsource to GnrDomSource and bag to GnrBag; this distinguishes reconstructed source and ordinary Bags."
+        },
+        {
+          "repository": "legacy",
+          "path": "gnrjs/gnr_d11/js/genro_rpc.js",
+          "symbol": "resultHandler: function",
+          "line": 101,
+          "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
+          "sha256": "a28733c2124ca60ee485ac192bbbb243a588bb5390d8eb849beddbc14e23b857",
+          "finding": "RPC responses are decoded into a Bag envelope with fromXmlDoc(response, genro.clsdict). This is legacy XML evidence, not TYTX compatibility evidence."
         }
       ],
       "current": [

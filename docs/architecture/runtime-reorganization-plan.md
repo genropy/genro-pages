@@ -89,7 +89,7 @@ handle and drag/drop coverage remains explicitly open.
 
 ## Proposed ownership tree after the contract audit
 
-Status: pending owner review. Names below express responsibilities, not new
+Status: accepted for implementation trial; public signatures and detailed timing remain proposals. Names below express responsibilities, not new
 implemented APIs or settled method signatures.
 
 ```text
