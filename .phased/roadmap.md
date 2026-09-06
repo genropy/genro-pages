@@ -18,7 +18,9 @@ Ends at an evidence-backed compatibility matrix, proposed ownership tree and
 behavioral scenarios that make the first implementation macro ready to plan.
 No production runtime changes. Archived plan: done/runtime-contract/plan.md.
 
-## Macro 2 — Page-owned runtime
+## Macro 2 — Page-owned runtime (first implementation slice active)
+
+Active plan: active/page-owned-runtime/plan.md.
 
 Requires Macro 1's lifecycle, source context, deletion and connection contracts.
 Ends at a usable gallery/playground/inspector owned through genro, with isolated
@@ -55,3 +57,7 @@ ASGI contracts; declaration support alone is not operational RPC.
 Mobile implementation and ASGI integration require later bounded plans. Open
 external decisions stay open until the owner records them; mailbox proposals do
 not settle them. This roadmap does not authorize speculative facades or new APIs.
+
+The active Macro 2 slice establishes Application and tool ownership first.
+Source-subtree hooks and general connection compatibility still require planning
+before declaring the entire macro complete.
