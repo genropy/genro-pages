@@ -6,7 +6,7 @@ class WebPage:
     """Subclass with ordinary Python inheritance."""
 
     client_builder = ("genro-dom-js", "HtmlBuilder")
-    client_setup = None
+    client_setup: tuple[str, str] | None = None
     source_inspection = True
 
     def main(self, root):

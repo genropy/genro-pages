@@ -8,5 +8,8 @@ export async function resolve(specifier, context, nextResolve) {
     if (specifier.startsWith('/_assets/dom/')) {
         return {url: new URL('genro-dom-js/src/' + specifier.slice('/_assets/dom/'.length), base).href, shortCircuit: true};
     }
+    if (specifier.startsWith('/_assets/pages/')) {
+        return {url: new URL('../src/genro_pages/resources/' + specifier.slice('/_assets/pages/'.length), import.meta.url).href, shortCircuit: true};
+    }
     return nextResolve(specifier, context);
 }

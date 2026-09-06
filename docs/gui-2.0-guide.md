@@ -437,3 +437,36 @@ page/tool responses. An old response cannot install an inspector on a replacemen
 page. This is local runtime ownership, not a definition of server identity,
 WebSocket routing, ready/onStart ordering or arbitrary source-subtree lifetime.
 Those contracts remain separate work. There is no generic plugin registry.
+
+## Python bootstrap document — integration in progress
+
+`PageDocument(HtmlBuilder)` now composes the initial HTML through `build_head`,
+`build_body` and `build_menu`. The page's main recipe remains a separate TYTX
+response; the initial `root` host is empty. Shell styles live in `shell.css`,
+followed by the existing `theme.css` overrides.
+
+Page classes declare their client implementation explicitly:
+
+```python
+class ExamplePage(WebPage):
+    client_builder = ("/_assets/pages/gallery.js", "GalleryBuilder")
+    client_setup = None
+```
+
+The optional setup descriptor names an exported function called with
+`(host, application)`. WidgetTestPage already declares GalleryBuilder;
+PlaygroundPage declares PlaygroundBuilder and mountPlayground. Registration
+names need not match a `widgets/` prefix or `playground` spelling. Metadata is
+chosen from the registered Python class, never a query-supplied module URL.
+
+The server validates page and transport and embeds a TYTX JSON startup Bag in
+an inert `page-startup` script. Its nested Bags describe endpoints, hosts and
+module/export pairs. JSON is escaped at the raw-script boundary to preserve
+literal closing tags and Unicode on decoding. This configuration does not
+assign a server page ID or establish readiness or a WebSocket connection.
+
+Status: the full bootstrap integration is blocked by
+[genro-builders #39](https://github.com/genropy/genro-builders/issues/39): the
+`details` grammar rejects the existing XML panel's `pre` child. Until corrected,
+the new initial document cannot be served successfully. Acceptance contracts
+are present, but full startup/browser verification remains pending.

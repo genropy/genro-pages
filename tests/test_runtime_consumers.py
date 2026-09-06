@@ -6,6 +6,7 @@ import base64
 import json
 import subprocess
 
+from genro_pages.application import WebpageApplication
 from genro_pages.inspector import build_inspector
 from genro_pages.pages.playground import PlaygroundPage
 from genro_pages.widget_test_builder import WidgetTestBuilder
@@ -22,6 +23,11 @@ class TestRuntimeOwnership:
         for transport in ("json", "msgpack"):
             payload = {"transport": transport,
                        "inspectorJson": to_tytx(inspector.source, transport="json")}
+            if scenario == "bootstrap":
+                application = WebpageApplication(client_modules=folder.resolve().parents[1],
+                                                 pages={"arbitrary-lab": PlaygroundPage},
+                                                 default_page="arbitrary-lab")
+                payload["html"] = application.index(transport=transport)
             for key, source in (("page", page.source), ("inspector", inspector.source)):
                 value = to_tytx(source, transport=transport)
                 payload[key] = base64.b64encode(value).decode() if transport == "msgpack" else value

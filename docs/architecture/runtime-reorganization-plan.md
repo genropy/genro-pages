@@ -139,3 +139,17 @@ late page/tool responses after replacement or disposal.
 This slice does not implement initialize/ready/onStart parity, general source
 subtree cleanup, connect interception, remote providers or server/iframe identity.
 The larger ownership tree above remains a proposal outside these concrete tools.
+
+### Python bootstrap checkpoint
+
+The document/configuration slice is implemented in `page_document.py` and
+`resources/bootstrap.js`, with declared `client_builder` / `client_setup`
+metadata on Python pages. Menu HTML now comes from the validated menu Bag via
+HtmlBuilder. Existing HTTP recipe and inspector endpoints remain separate.
+The runtime ownership fixtures now consume Python-generated HTML, and startup
+contracts cover arbitrary registration names and both TYTX transports.
+
+This is not yet a verified completion: genro-builders issue #39 blocks document
+creation because its details grammar admits summary only. Keep the phase open
+until that dependency is fixed and the full integration and browser checks pass.
+No sibling source changes or alternative HTML renderer were introduced.

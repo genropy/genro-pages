@@ -90,10 +90,7 @@ class Checks {
         peer.dispose();
     }
     async bootstrap() {
-        globalThis.location = {search: '?page=playground'};
-        document.body.innerHTML = '<div id="root"></div><div id="developer-tools"></div>'
-            + '<div id="error" hidden></div><details id="source-inspector"></details>'
-            + '<pre id="source-xml"></pre><nav id="page-menu"></nav>';
+        document.open(); document.write(payload.html); document.close();
         // Bootstrap's inspector endpoint is JSON, independently of page transport.
         const response = value => ({ok: true, text: async () => value,
             arrayBuffer: async () => Uint8Array.from(Buffer.from(value, 'base64')).buffer});
@@ -104,7 +101,6 @@ class Checks {
             if (delayTools) return new Promise(resolve => { pendingTools = resolve; });
             return response(payload.inspectorJson);
         };
-        location.search += '&transport=' + payload.transport;
         const {renderPage} = await import('../src/genro_pages/resources/bootstrap.js');
         const initial = window.genro;
         delayTools = true;
