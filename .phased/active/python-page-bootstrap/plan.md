@@ -59,3 +59,7 @@ DOM directly; its Bag vocabulary and destinations are retained by build_menu.
 ASGI pages contract read at planning is version 0.4 in the reference repository;
 it requires HTTP-created page identity before openchannel. No ASGI API is consumed
 by this plan beyond the current HTTP application/response integration.
+
+## Quality check
+
+> Quality check: 2026-09-06T21:12:34.232185+00:00 — commit 3d75ea7 — review light, QA done, findings 2 confirmed, 0 dismissed, final touch 2 corrections

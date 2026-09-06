@@ -85,12 +85,12 @@ remain separate steps; no merge, push or history consolidation performed.
 
 Reviewed revision: 961dca1; base e1b0d6f. Independent read-only Light review
 by bootstrap_light_review. User QA done and names accepted; no markers remain.
-Owner approved the following batch. Correction revision: pending commit.
+Owner approved the following batch. Correction revision: 3d75ea7.
 
 | Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
 |---|---|---|---|---|
-| P2: pyproject permitted builders 0.23.0/0.23.1; PageDocument adds details/pre, rejected before d98b737 | Required minimum not raised after #39 | Require builders >=0.23.2; package installation consumers | Parse dependency requirement; bootstrap contracts | Corrected, independent verification pending |
-| Guide and roadmap said planned/pending visual acceptance | Closure status not propagated | Update only bootstrap status, preserving later ASGI/RPC boundaries | Compare against closed phase and user QA | Corrected, independent verification pending |
+| P2: pyproject permitted builders 0.23.0/0.23.1; PageDocument adds details/pre, rejected before d98b737 | Required minimum not raised after #39 | Require builders >=0.23.2; package installation consumers | Parse dependency requirement; bootstrap contracts | Corrected; independent verification clean |
+| Guide and roadmap said planned/pending visual acceptance | Closure status not propagated | Update only bootstrap status, preserving later ASGI/RPC boundaries | Compare against closed phase and user QA | Corrected; independent verification clean |
 
 Coverage: Python document, safe inert TYTX, registered client descriptors,
 menu encoding, JSON/MessagePack and asynchronous ownership guards; dependency
@@ -99,3 +99,17 @@ completion race is unchanged baseline, outside this correction; no new runtime
 regression confirmed. Broader RPC, registered identity, source-subtree hooks and
 root/iframe transport remain future work. The separately requested ASGI 0.43.0
 browser proof is suspended by the owner and not part of this quality verdict.
+
+Focused verification by fresh read-only bootstrap_correction_verify reviewed
+961dca1..3d75ea7 and the affected builders dependency: no residual findings.
+Checks actually run for this batch: six bootstrap contracts passed, ruff clean;
+parsed requirement excludes 0.23.0/0.23.1 and accepts 0.23.2. Commit hook mypy
+reported no issues in 37 source files. Full 80 pages / 128 DOM phase evidence
+remains applicable; correction changes metadata/docs only, so prior accepted
+human QA was retained without requiring a repeat. QA worksheet was shown at
+/tmp/python-page-bootstrap-qa.html. No naming markers remain.
+
+Quality outcome: 2 confirmed findings resolved (one runtime dependency and one
+closure-documentation inconsistency), no residual findings within reviewed scope.
+Reviewed revision 961dca1, correction/stamp target 3d75ea7. Historical inspection
+notes about pre-fix dependency failures remain as history, not current blockers.
