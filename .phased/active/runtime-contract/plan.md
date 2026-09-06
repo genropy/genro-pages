@@ -16,7 +16,8 @@ and ownership proposal; do not implement the runtime in this macro.
 
 ## Work Plan
 
-- [ ] **Phase 1**: Establish the runtime compatibility contract
+- [>] **Phase 1**: Establish the runtime compatibility contract
+  > In execution since 2026-09-06T17:45:12.397010+00:00
   - Run: fable / high
   - Pattern: `docs/architecture/legacy-lifecycle-audit.md`; `tests/test_typed_envelope.py:TestTypedEnvelope` and sibling `genro-dom-js/tests/actions.test.js` for later behavioral fixtures.
   - Files: `docs/architecture/legacy-lifecycle-audit.md`, `docs/architecture/runtime-legacy-contract.md`, `docs/architecture/runtime-reorganization-plan.md`, new `docs/architecture/runtime-contract.json`, `docs/gui-2.0-guide.md`, new `tests/test_runtime_contract.py`.
