@@ -27,7 +27,10 @@ Ends at a usable gallery/playground/inspector owned through genro, with isolated
 instances and recursive, idempotent cleanup. Detail implementation phases only
 after Macro 1 evidence and API proposals have been reviewed.
 
-## Macro 3 — Python-generated bootstrap
+## Macro 3 — Python-generated bootstrap (document/configuration slice planned)
+
+Active plan: active/python-page-bootstrap/plan.md. Registered identity and
+readiness remain separate prerequisites for the full macro outcome.
 
 Requires ownership/readiness from Macro 2 and the approved ASGI identity seam.
 Ends at builder-generated HTML and explicit startup configuration, with generic
