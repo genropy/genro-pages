@@ -15,13 +15,19 @@ references after disposal for diagnosis; do not add speculative service facades.
 
 ## Work Plan
 
-- [ ] **Phase 1**: Dispose a page runtime without affecting its peers
+- [x] **Phase 1**: Dispose a page runtime without affecting its peers
+  > In execution since 2026-09-06T18:45:45.742029+00:00
   - Run: opus / high
   - Pattern: sibling `genro-dom-js/src/services/topics.js:TopicService.subscribe`; `src/genro_pages/resources/shortcuts.js:Shortcuts.dispose`; `tests/test_inspector.py` for Python-launched JS checks.
   - Files: sibling `genro-dom-js/src/application.js`, `src/builder-handler.js`, `src/builder-base.js`, `src/services/topics.js`; new pages `tests/test_runtime_disposal.py` and its JS fixture; focused sibling tests if needed.
   - Decisions: public entry is `genro.dispose()`; calling it twice is safe. Disposal detaches owned DOM listeners, Bag subscriptions and topic listeners and clears queued work. Retained Bag/source references remain readable. It must not dispose another runtime or shared external Bag. Do not introduce ready/onStart semantics, macro compilation, generic method interception or transport APIs.
   - Details: first record and review the sibling's pre-existing dirty baseline separately from this change. Trace actual data/source subscriptions and queued rendering. Implement teardown at their existing owners, including removing only owned DOM content without destroying a caller-owned host or replacement. Keep child runtimes independently disposable. Pending callbacks under current runtime ownership cannot deliver after disposal; arbitrary author-created browser timers are outside that ownership contract. Preserve current construction entry points.
   - Done: the plan's tests for this phase, copied into the test tree with skeleton bodies implemented, pass with `PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src python -m pytest tests/test_runtime_disposal.py`; `ruff check tests/test_runtime_disposal.py` passes. Run sibling `npm test`. Demonstrate two live instances, repeated disposal, stale DOM events, retained Bag/source mutations and silent removed subscriptions. No callback-count test may rely solely on private registry sizes.
+
+  > Done: 2026-09-06 — idempotent page disposal implemented; 3 ownership contracts, full pages suite (71 tests), ruff and DOM suite (128 tests) pass. Contract names/comments and authored fields verified unchanged.
+  > Files: genro-dom-js/src/application.js, src/builder-handler.js, src/builder-base.js, src/services/topics.js, src/target-wrapper.js; genro-pages/tests/test_runtime_disposal.py, tests/runtime_disposal.mjs; workflow plan.md and notes.md.
+  > Review: Read-only review found component-controller and in-flight-render reentrancy gaps; both fixed and covered by behavioral regressions. DOM dependency commit 4ccf4f2; prior baseline checkpoint 3ef702a. Naming accepted by owner.
+  > Verify: Automated checks cover this phase; no manual UI check required. Consumer integration remains Phase 2.
 
 - [ ] **Phase 2**: Make laboratory and inspector use page ownership
   - Run: opus / medium
