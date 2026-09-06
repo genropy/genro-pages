@@ -59,3 +59,9 @@ re-read before designing their integration, not inferred from old drafts.
 
 Only Macro 1 is executable here. The roadmap records later boundaries without
 pretending that unresolved API or transport choices are ready implementation.
+
+## Quality check
+
+> Quality check: 2026-09-06T18:16:17.223969+00:00 — commit 69ba533 — review extended, QA done, findings 3 confirmed, 0 dismissed, final touch 3 corrections
+
+Residual: one RPC evidence anchor needs its full signature and correct line; see notes.md. Not a clean consolidation gate.

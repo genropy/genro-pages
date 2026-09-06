@@ -44,3 +44,11 @@ Owner approved all three corrections in one batch. No source code or immutable
 plan contract fields/test copies changed. Checks: 13 audit tests pass, Ruff clean,
 33 evidence references checked for hashes and symbols. Runtime, physical-device
 and live WebSocket behavior remain outside this documentary workflow.
+
+Independent delta verification: 90ab79d..69ba533. Readiness and acceptance
+status resolved; typed transport substantiated, but its RPC evidence anchor
+remains imprecise: generic resultHandler matches a resolver wrapper at line 101.
+The intended signature is resultHandler: function(response, ioArgs, currentAttr)
+at line 596, with envelope.fromXmlDoc at 602. This is one residual citation
+defect, not a runtime or contract failure. No second correction batch applied.
+Close-out is diagnostic, not clean; request a bounded citation correction.
