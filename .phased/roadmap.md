@@ -11,12 +11,12 @@ Each page owns genro, a source Bag and one rooted data Bag. Recipe callbacks use
 their source node as this where the legacy contract requires it. Modules follow
 responsibilities; public collection imports remain stable. English artifacts.
 
-## Macro 1 — Runtime contract (active)
+## Macro 1 — Runtime contract (completed)
 
 Starts from the existing experimental gallery and documented partial audit.
 Ends at an evidence-backed compatibility matrix, proposed ownership tree and
 behavioral scenarios that make the first implementation macro ready to plan.
-No production runtime changes. Active plan: active/runtime-contract/plan.md.
+No production runtime changes. Archived plan: done/runtime-contract/plan.md.
 
 ## Macro 2 — Page-owned runtime
 

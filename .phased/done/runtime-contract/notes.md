@@ -117,3 +117,17 @@ regressions (2 passed). Both defects resolved, no residual within the reviewed
 scope. This does not establish general Application disposal or garbage collection.
 Full checkpoint review and correction evidence now covers the previously
 uncommitted pages implementation; sibling uncommitted work remains external.
+
+## Finalization
+
+Owner selected commit-only archival: preserve history, branch and worktree;
+no squash, merge or push. Quality stamp at 068832b is current and has no
+outstanding confirmed findings. Pages working tree was clean before archival.
+
+Durable-lesson scan covered phase rationale and both final-touch reviews.
+Readiness versus delayed/lazy execution is already recorded in the architecture
+audit; per-instance event and mount ownership are expressed in the regression
+tests and ownership documentation. No additional knowledge entry was needed.
+
+Macro 2 remains to be planned in this conversation. The existing sibling
+development work is not consolidated or published by this archival operation.
