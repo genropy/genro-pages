@@ -4,7 +4,7 @@ import argparse
 
 from genro_asgi import AsgiServer
 
-from .hello_world import HelloWorldPage
+from .demo import DemoApplication
 
 
 class Cli:
@@ -16,7 +16,7 @@ class Cli:
         parser.add_argument("--host", default="127.0.0.1")
         parser.add_argument("--port", type=int, default=8000)
         options = parser.parse_args()
-        server = AsgiServer(applications=[HelloWorldPage(client_modules=options.modules)])
+        server = AsgiServer(applications=[DemoApplication(client_modules=options.modules)])
         server.serve(host=options.host, port=options.port)
 
 

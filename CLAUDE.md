@@ -19,3 +19,7 @@ All general policies are inherited from that document.
 - Code and documentation are in English. Do not add attribution or co-author markers.
 
 Read README.md for scope. Architecture drafts belong in temp/ and require review.
+
+Before authoring or changing GUI pages, read [GUI 2.0 authoring guide](docs/gui-2.0-guide.md).
+Maintain it as the separate record of the owner's agreed GUI conventions;
+keep pending API compatibility checks distinct from implemented behavior.

@@ -3,26 +3,26 @@
 import {pathToFileURL} from 'node:url';
 import {readFileSync} from 'node:fs';
 const base = pathToFileURL(`${process.argv[2]}/`);
-const {Bag} = await import(new URL('genro-bag-js/src/index.js', base));
 const {setupDom} = await import(new URL('genro-dom-js/tests/dom.js', base));
 const {Application, HtmlBuilder, SourceBagNode} = await import(new URL('genro-dom-js/src/index.js', base));
+const {fromTytx} = await import(new URL('genro-tytx/js/src/index.js', base));
 setupDom();
 const builder = new HtmlBuilder('main');
 const transport = process.argv[3] || 'json';
-builder.loadSource(Bag.fromTytx(transport === 'msgpack' ? readFileSync(0) : readFileSync(0, 'utf8'), transport));
+builder.loadSource(fromTytx(transport === 'msgpack' ? readFileSync(0) : readFileSync(0, 'utf8'), transport));
 const root = document.createElement('div');
 const app = new Application(root, builder);
 const node = builder.source.getNode('div_0.h1_0');
 const field = root.querySelector('input[placeholder]');
 field.value = 'Hello Astra';
 field.dispatchEvent(new Event('input', {bubbles: true}));
-if (app.data.getItem('main.titolo') === 'Hello Astra') {
+if (app.data.getItem('main.title') === 'Hello Astra') {
     throw new Error('Default binding wrote before change/focus-out');
 }
 field.dispatchEvent(new Event('change', {bubbles: true}));
 const echoNode = builder.nodeById('title_echo');
 const echo = root.querySelector(`#${builder.targetId(echoNode)}`);
-if (echo.textContent !== 'Hello Astra' || app.data.getItem('main.titolo') !== 'Hello Astra') {
+if (echo.textContent !== 'Hello Astra' || app.data.getItem('main.title') !== 'Hello Astra') {
     throw new Error('Typing did not update the shared title binding');
 }
 console.log(JSON.stringify({
