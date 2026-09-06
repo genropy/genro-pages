@@ -8,7 +8,7 @@ export async function mountPlayground(host, ui) {
     ui.dev ||= new DeveloperTools();
     ui.dev.playground?.dispose();
     const listeners = [];
-    const listen = (element, type, callback) => { // wf:phase-2:new
+    const listen = (element, type, callback) => {
         element.addEventListener(type, callback);
         listeners.push(() => element.removeEventListener(type, callback));
     };
@@ -51,7 +51,7 @@ export async function mountPlayground(host, ui) {
         rebuild();
     });
     let disposed = false;
-    const tool = {ui, session, dispose() { // wf:phase-2:new
+    const tool = {ui, session, dispose() {
         if (disposed) return;
         disposed = true;
         listeners.forEach(remove => remove());

@@ -50,3 +50,5 @@ working inspector and updated navigation transport. No browser errors. Human
 Verify remains the authored judgment of familiar interaction and unchanged look.
 
 Dependency commit: genro-dom-js f743e6c. Pages implementation checkpoint: af3e883.
+
+Human Verify accepted: the owner reported “sembra ok” after the browser interaction check. The owner accepted all proposed Phase 2 names; markers removed.

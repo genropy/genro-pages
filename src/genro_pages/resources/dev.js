@@ -1,12 +1,12 @@
 // Copyright 2026 Softwell S.r.l. - SPDX-License-Identifier: Apache-2.0
 /** Actual developer tools belonging to one page, never a global registry. */
 export class DeveloperTools {
-    constructor() { // wf:phase-2:new
+    constructor() {
         this.inspector = null;
         this.playground = null;
         this.disposed = false;
     }
-    dispose() { // wf:phase-2:new
+    dispose() {
         if (this.disposed) return;
         this.disposed = true;
         this.inspector?.dispose();

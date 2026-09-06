@@ -37,7 +37,7 @@ export class LabSession {
         this.app.builder.source.subscribe('lab-inspector', {any: () => this.onChange(this)});
         this.run(code);
     }
-    dispose() { // wf:phase-2:new
+    dispose() {
         if (this.disposed) return;
         this.disposed = true;
         this.app.builder.data.unsubscribe('lab-inspector', {any: true});

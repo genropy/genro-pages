@@ -12,12 +12,12 @@ const payload = JSON.parse(readFileSync(0, 'utf8'));
 const decode = value => fromTytx(payload.transport === 'msgpack'
     ? new Uint8Array(Buffer.from(value, 'base64')) : value, payload.transport);
 class Checks {
-    mount() { // wf:phase-2:new
+    mount() {
         const host = document.createElement('div'); document.body.append(host);
         const builder = new PlaygroundBuilder('main'); builder.loadSource(decode(payload.page));
         return new Application(host, builder);
     }
-    async rebuild() { // wf:phase-2:new
+    async rebuild() {
         const page = this.mount();
         const tool = await mountPlayground(page.target.root, page);
         assert.equal(page.dev.playground, tool);
@@ -44,7 +44,7 @@ class Checks {
         assert.equal(tool.session.app, experiment);
         assert.equal(page.target.root.childNodes.length, 0);
     }
-    inspector() { // wf:phase-2:new
+    inspector() {
         const page = this.mount(), peer = this.mount();
         const host = document.createElement('div'); document.body.append(host);
         const old = mountInspector(host, decode(payload.inspector), page);
@@ -68,7 +68,7 @@ class Checks {
         assert.equal(mountInspector(host, decode(payload.inspector), page), null);
         peer.dispose();
     }
-    async bootstrap() { // wf:phase-2:new
+    async bootstrap() {
         globalThis.location = {search: '?page=playground'};
         document.body.innerHTML = '<div id="root"></div><div id="developer-tools"></div>'
             + '<div id="error" hidden></div><details id="source-inspector"></details>'

@@ -29,16 +29,19 @@ references after disposal for diagnosis; do not add speculative service facades.
   > Review: Read-only review found component-controller and in-flight-render reentrancy gaps; both fixed and covered by behavioral regressions. DOM dependency commit 4ccf4f2; prior baseline checkpoint 3ef702a. Naming accepted by owner.
   > Verify: Automated checks cover this phase; no manual UI check required. Consumer integration remains Phase 2.
 
-- [>] **Phase 2**: Make laboratory and inspector use page ownership
+- [x] **Phase 2**: Make laboratory and inspector use page ownership
   - Run: opus / medium
   - Pattern: `src/genro_pages/resources/inspector.js:mountInspector`, `src/genro_pages/resources/lab-session.js:LabSession.reset`; `tests/inspector.mjs` and `tests/playground.mjs` actual Python/TYTX fixtures.
   - Files: `src/genro_pages/resources/bootstrap.js`, `inspector.js`, `lab-session.js`, `playground.js`; new `dev.js` only if needed for the real developer-tool owner; `tests/inspector.mjs`, `tests/playground.mjs`, new `tests/test_runtime_consumers.py` and fixture; `docs/gui-2.0-guide.md`, `docs/architecture/runtime-reorganization-plan.md`.
   - Decisions: developer-tool ownership is exposed through `genro.dev`; preserve existing mount helpers as compatibility entry points. No invented public methods beyond the approved dispose entry are required by this plan. Page teardown closes its inspector/shortcut and experiment; experiment reset only closes the old experiment. Keep Ctrl+Shift+D and recipe-authored controls. Use existing visual design. No global singleton service.
   - Details: replace partial cleanup paths with the Phase 1 disposal contract. Register real consumers with their page owner; do not introduce an abstract plugin framework. Ensure asynchronous bootstrap completion cannot mount tools onto a replaced/disposed page. Retain the latest instance locally during awaits rather than relying on a changing window.genro. Update documentation to distinguish implemented ownership from deferred APIs.
   - Done: the plan's tests for this phase, copied into the test tree with skeleton bodies implemented, pass. Run `PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src python -m pytest tests/` and `ruff check src tests`, plus sibling `npm test`. Fixtures cover repeated reset, inspector remount, page replacement, shortcut disposal and late async completion, through real Python/TYTX recipes for both supported transports where applicable. Existing nested-tab and inspector-remount regressions stay green.
-  > Testing: awaiting the human's `Verify: now` checks | commit: af3e883
-  > WIP: done: implementation, browser checks, 74 pages and 128 DOM tests green | missing: human interaction check and closing naming review | next: present authored Verify then close-phase | commit: af3e883
   - Verify: now — use the laboratory and inspector after repeated rebuilds and a transport change; confirm the familiar interaction remains clear and no visible UI redesign was introduced.
+  > Done: 2026-09-06 — page-owned inspector and laboratory implemented; full pages suite 74 passed, DOM suite 128 passed, ruff check src tests passed. Contract fields and skeleton names/comments unchanged.
+  > Files: genro-pages/src/genro_pages/resources/bootstrap.js, inspector.js, lab-session.js, playground.js, dev.js; tests/test_runtime_consumers.py, tests/runtime_consumers.mjs; docs/gui-2.0-guide.md, docs/architecture/runtime-reorganization-plan.md; workflow plan.md and notes.md; genro-dom-js/src/application.js.
+  > Verify: now — accepted by the owner ("sembra ok") after browser checks of repeated rebuilds, Ctrl+Shift+D and MessagePack. No redesign introduced.
+  > Review: Naming accepted. Dependency genro-dom-js f743e6c; pages implementation checkpoint af3e883. Server lifecycle, general source-subtree cleanup and readiness remain outside this slice.
+
 
 ## Scope and implementation boundaries
 

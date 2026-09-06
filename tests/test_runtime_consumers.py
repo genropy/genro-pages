@@ -13,7 +13,7 @@ from genro_tytx import to_tytx
 
 
 class TestRuntimeOwnership:
-    def _check(self, scenario):  # wf:phase-2:new
+    def _check(self, scenario):
         page = WidgetTestBuilder("main")
         PlaygroundPage().main(page.source)
         inspector = WidgetTestBuilder("main")

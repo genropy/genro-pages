@@ -9,7 +9,7 @@ let generation = 0;
 export async function renderPage(transport) {
     const ticket = ++generation;
     let app;
-    const current = () => ticket === generation && !app?._disposed; // wf:phase-2:new
+    const current = () => ticket === generation && !app?._disposed;
     try {
         const query = new URLSearchParams({transport});
         const selected = new URLSearchParams(location.search).get('page');
