@@ -15,22 +15,22 @@ from genro_tytx import to_tytx
 class PageDocument(HtmlBuilder):
     """Compose the initial document through ordinary overridable methods."""
 
-    def __init__(self, startup, menu=None):  # wf:phase-1:new
+    def __init__(self, startup, menu=None):
         super().__init__()
         self.startup = startup
         self.menu = menu
 
-    def main(self, root):  # wf:phase-1:new
+    def main(self, root):
         """Build the document; the page recipe arrives in a later request."""
         html = root.html(lang="en")
         self.build_head(html.head())
         self.build_body(html.body())
 
-    def get_script_json(self, text):  # wf:phase-1:new
+    def get_script_json(self, text):
         """Escape JSON for an HTML raw-text element without changing its values."""
         return text.replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
 
-    def build_head(self, head):  # wf:phase-1:new
+    def build_head(self, head):
         """Declare resources in their existing cascade and import order."""
         head.meta(charset="utf-8")
         head.meta(name="viewport", content="width=device-width, initial-scale=1")
@@ -48,7 +48,7 @@ class PageDocument(HtmlBuilder):
                      "/_assets/pages/shell.css", "/_assets/pages/theme.css"):
             head.link(rel="stylesheet", href=href)
 
-    def build_body(self, body):  # wf:phase-1:new
+    def build_body(self, body):
         """Create stable hosts and controls, leaving the recipe host empty."""
         nav = body.nav(id="page-menu", **{"aria-label": "Pages"})
         if self.menu is not None:
@@ -66,7 +66,7 @@ class PageDocument(HtmlBuilder):
         inspector.pre(id="source-xml")
         body.script(html_type="module", src="/_assets/pages/bootstrap.js")
 
-    def build_menu(self, parent, source):  # wf:phase-1:new
+    def build_menu(self, parent, source):
         """Preserve branch labels and registered destinations from the menu Bag."""
         listing = parent.ul()
         for node in source:

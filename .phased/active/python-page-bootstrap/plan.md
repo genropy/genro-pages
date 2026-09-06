@@ -19,9 +19,10 @@ readiness remain a separate ASGI integration block.
 
 ## Work Plan
 
-- [>] **Phase 1**: Generate the page document and drive startup from typed configuration
-  > In execution since 2026-09-06T19:48:58.833405+00:00
-  > Testing: awaiting the human's `Verify: now` checks | commit: 2957c11
+- [x] **Phase 1**: Generate the page document and drive startup from typed configuration
+  > Done: Python-built document, typed startup configuration and generic client selection verified; 80 pages tests, 128 DOM tests and lint passed.
+  > Files: .phased/active/python-page-bootstrap/notes.md, .phased/active/python-page-bootstrap/plan.md, docs/architecture/runtime-reorganization-plan.md, docs/gui-2.0-guide.md, src/genro_pages/application.py, src/genro_pages/page.py, src/genro_pages/page_document.py, src/genro_pages/pages/playground.py, src/genro_pages/resources/bootstrap.js, src/genro_pages/resources/index.html, src/genro_pages/resources/shell.css, src/genro_pages/widget_test_page.py, tests/lab_loader.mjs, tests/page_bootstrap.mjs, tests/runtime_consumers.mjs, tests/test_page_bootstrap.py, tests/test_runtime_consumers.py
+  > Verify: now — accepted by the owner after browser checks and successful textBox retest; names accepted in chat.
   - Run: opus / high
   - Pattern: sibling `genro-builders/tests/test_html_attrs.py:_render` verifies `HtmlBuilder.create()` and `render(target=False)`; `tests/test_hello_world.py:RequestSupport` and `tests/test_runtime_consumers.py:TestRuntimeOwnership._check` exercise ASGI responses and real Python/TYTX recipes in JavaScript.
   - Files: new `src/genro_pages/page_document.py`; `src/genro_pages/application.py`, `page.py`, `widget_test_page.py`, `pages/playground.py`; `resources/bootstrap.js`, new `resources/shell.css`, replace/remove the obsolete static `resources/index.html`; existing `resources/gallery.js`, `playground-page.js` and `playground.js` only if metadata integration requires it; new `tests/test_page_bootstrap.py` and JS fixture, `tests/test_hello_world.py`, `tests/test_runtime_consumers.py`, `tests/runtime_consumers.mjs`; `docs/gui-2.0-guide.md`, `docs/architecture/runtime-reorganization-plan.md`.

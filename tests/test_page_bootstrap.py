@@ -25,16 +25,16 @@ from tests.test_runtime_consumers import TestRuntimeOwnership as RuntimeChecks
 
 
 class BootstrapChecks(RequestSupport):
-    def get_response(self, application, path="/", **query):  # wf:phase-1:new
+    def get_response(self, application, path="/", **query):
         return asyncio.run(self.request(application.server or AsgiServer(applications=[application]), path,
                                         query=urlencode(query).encode()))
 
-    def get_document(self, application, **query):  # wf:phase-1:new
+    def get_document(self, application, **query):
         response, body = self.get_response(application, **query)
         assert response["status"] == 200, body.decode()
         return body.decode()
 
-    def get_client_result(self, html, **payload):  # wf:phase-1:new
+    def get_client_result(self, html, **payload):
         folder = Path(__file__).parent
         result = subprocess.run(
             ["node", "--experimental-loader", str(folder / "lab_loader.mjs"),
@@ -46,13 +46,13 @@ class BootstrapChecks(RequestSupport):
 
 
 class ExtendedDocument(PageDocument):
-    def build_head(self, head):  # wf:phase-1:new
+    def build_head(self, head):
         super().build_head(head)
         head.meta(name="composition-test", content="overridden")
 
 
 class ProbeDocument(PageDocument):
-    def build_head(self, head):  # wf:phase-1:new
+    def build_head(self, head):
         self.startup.set_item("probe", Bag(dict(
             text='</script><div data-injected="yes">& \" Ω 日本語',
             count=42, enabled=False, empty=None, date=date(2026, 9, 6))))
@@ -60,7 +60,7 @@ class ProbeDocument(PageDocument):
 
 
 class EncodedMenu(MenuBuilder):
-    def main(self, root):  # wf:phase-1:new
+    def main(self, root):
         root.branch(label="Examples & checks").webpage(label="A < B", filepath="a b/Ω&x")
 
 
