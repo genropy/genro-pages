@@ -25,3 +25,5 @@ Baseline revisions:
 - genro-bag-js: 005b01d8311c433ee5a8859b336ee9bcd49daba4 (working tree changes recorded separately)
 - genro-builders: fe28309620caf3615cbe476601dd65b1587f73c1 (working tree changes recorded separately)
 - genro-bag: 1b13b1ef15f8caa772275e5329a7e033af11bab4 (working tree changes recorded separately)
+
+Closure: owner said "proviamo a vedere se regge", accepting the proposal for an implementation trial. Re-ran 13 tests and lint, checked evidence hashes/symbols and unchanged contract blocks/copies. No naming markers or new production callables. This closes the audit, not the implementation.
