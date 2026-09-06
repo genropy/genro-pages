@@ -359,8 +359,8 @@
         {
           "repository": "legacy",
           "path": "gnrjs/gnr_d11/js/genro_rpc.js",
-          "symbol": "resultHandler: function",
-          "line": 101,
+          "symbol": "resultHandler: function(response, ioArgs, currentAttr)",
+          "line": 596,
           "revision": "919a3a572acf89b4e016b2b32fd5ec556a269533 + working tree",
           "sha256": "a28733c2124ca60ee485ac192bbbb243a588bb5390d8eb849beddbc14e23b857",
           "finding": "RPC responses are decoded into a Bag envelope with fromXmlDoc(response, genro.clsdict). This is legacy XML evidence, not TYTX compatibility evidence."

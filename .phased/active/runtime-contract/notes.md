@@ -52,3 +52,11 @@ The intended signature is resultHandler: function(response, ioArgs, currentAttr)
 at line 596, with envelope.fromXmlDoc at 602. This is one residual citation
 defect, not a runtime or contract failure. No second correction batch applied.
 Close-out is diagnostic, not clean; request a bounded citation correction.
+
+## Authorized residual correction
+
+Owner explicitly approved the bounded RPC citation correction after the
+independent delta review. Replaced the ambiguous symbol with the unique full
+resultHandler(response, ioArgs, currentAttr) signature at line 596. Verified
+that its body decodes envelope.fromXmlDoc(response, genro.clsdict); source hash
+is unchanged. No contract semantics or production files changed.
