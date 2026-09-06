@@ -65,3 +65,8 @@ pretending that unresolved API or transport choices are ready implementation.
 > Quality check: 2026-09-06T18:16:17.223969+00:00 — commit 69ba533 — review extended, QA done, findings 3 confirmed, 0 dismissed, final touch 3 corrections
 
 Residual: one RPC evidence anchor needs its full signature and correct line; see notes.md. Not a clean consolidation gate.
+
+> Quality check: 2026-09-06T18:17:50.327872+00:00 — commit a89dc53 — review extended, QA done, findings 3 confirmed, 0 dismissed, final touch 4 corrections
+
+Supersedes the diagnostic result above: the residual RPC anchor is corrected
+and independently verified. No outstanding findings within this workflow.

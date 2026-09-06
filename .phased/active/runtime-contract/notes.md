@@ -60,3 +60,9 @@ independent delta review. Replaced the ambiguous symbol with the unique full
 resultHandler(response, ioArgs, currentAttr) signature at line 596. Verified
 that its body decodes envelope.fromXmlDoc(response, genro.clsdict); source hash
 is unchanged. No contract semantics or production files changed.
+
+Independent verification of 67cb225..a89dc53 confirms the full signature,
+line 596, decoding call and recorded hash. Residual citation defect resolved.
+13 audit contract tests and Ruff pass after the correction. Extended review
+findings: all three original findings resolved, plus the authorized residual
+anchor correction; none outstanding. Coverage remains documentary only.
