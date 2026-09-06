@@ -66,3 +66,29 @@ line 596, decoding call and recorded hash. Residual citation defect resolved.
 13 audit contract tests and Ruff pass after the correction. Extended review
 findings: all three original findings resolved, plus the authorized residual
 anchor correction; none outstanding. Coverage remains documentary only.
+
+## Checkpoint review — 39e634c
+
+Owner requested extended review of the previously uncommitted GUI checkpoint,
+range 75d1898..39e634c. Source state unchanged during review. Independent
+reviewer inspected actual diff and current sibling dependencies.
+
+Validation: with documented PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src,
+68 Python tests pass; sibling genro-dom-js npm test: 128 pass; Ruff src/tests
+clean. Initial PYTHONPATH=src run used incompatible installed/original packages
+and failed 50 tests; attributed to environment, not accepted as code regression.
+
+Confirmed findings (correction proposal pending):
+- P2 nested gnr-set crosses preview Application boundary. Real tab click
+  writes experiment.page=second into both inner and outer data roots.
+  application.js consumes input/change/topics but not gnr-set propagation.
+  Add real nested-widget regression coverage and ownership boundary handling.
+- P2 inspector dispose reuses a host carrying old Application listeners.
+  Disposing then mounting another inspector leaves the old Application receiving
+  gnr-set and mutating its old data. Give each inspector a removable private
+  mount or remove delegated listeners explicitly; test repeated remounts.
+
+These are observed implementation defects, not future feature requests. A
+concurrent-bootstrap race was not reproduced and is not a confirmed finding.
+Documentary QA approval is not a new browser/mobile QA pass for this checkpoint.
+No clean finalization claim applies to the checkpoint until findings are resolved.
