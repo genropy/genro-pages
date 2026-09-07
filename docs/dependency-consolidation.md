@@ -1,6 +1,6 @@
 # Consolidate experimental dependencies
 
-**Date:** 2026-09-07. **Status:** issue drafts ready; publication approval pending.
+**Date:** 2026-09-07. **Status:** issues published after explicit owner authorization; consolidation and releases pending.
 
 The owner requested consolidating dependency changes in their repositories and
 consuming released versions instead of long-lived experimental worktrees.
@@ -46,13 +46,22 @@ probe, not a full test run of those released projects.
    dependency combination and remove experimental overrides only after success.
 
 No dependency branches, patches or running demo were changed by this audit.
-Public issue creation was rejected by automatic review pending explicit payload
-and destination approval. No new issue/comment was published. The drafts below
-have had all absolute workstation paths removed.
+After the initial automatic-review rejection, the owner explicitly authorized
+publication of these sanitized texts and destinations. All four issues and the
+existing-issue comment were published and their bodies read back and verified.
+No absolute workstation paths appear in the published texts.
+
+## Published tracking
+
+- [genro-bag #63 — mixed typed branches](https://github.com/genropy/genro-bag/issues/63)
+- [genro-builders #41 — SourceBag XS and release](https://github.com/genropy/genro-builders/issues/41)
+- [genro-builders #42 — opt-in GUI data alias](https://github.com/genropy/genro-builders/issues/42)
+- [genro-dom-js #1 — runtime consolidation and release](https://github.com/genropy/genro-dom-js/issues/1)
+- [genro-bag-js #4 — additional acceptance criteria](https://github.com/genropy/genro-bag-js/issues/4#issuecomment-5566071878)
 
 ---
 
-## Draft — genro-bag: new issue
+## Published text — genro-bag: new issue
 
 ## Problem
 
@@ -92,7 +101,7 @@ Review and integrate in this repository, run the full suite and cross-language c
 
 ---
 
-## Draft — genro-builders: SourceBag issue
+## Published text — genro-builders: SourceBag issue
 
 ## Problem
 
@@ -130,7 +139,7 @@ Review/integrate in Builders, coordinate mixed-branch support with genro-bag, pu
 
 ---
 
-## Draft — genro-builders: GUI data alias issue
+## Published text — genro-builders: GUI data alias issue
 
 ## Problem
 
@@ -163,7 +172,7 @@ Please review and integrate this separately from SourceBag serialization, test t
 
 ---
 
-## Draft — genro-dom-js: consolidation issue
+## Published text — genro-dom-js: consolidation issue
 
 ## Goal
 
@@ -193,7 +202,7 @@ Acceptance: reviewed integration branch, documented public API/migration notes, 
 
 ---
 
-## Draft — genro-bag-js: comment on existing #4
+## Published text — genro-bag-js: comment on existing #4
 
 Genro Pages follow-up, 2026-09-07: this existing alignment issue also blocks replacing Pages' experimental dependency with a consolidated release.
 

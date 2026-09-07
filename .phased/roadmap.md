@@ -155,6 +155,7 @@ are build output. No package/repository rename is approved or required.
 
 Replace experimental dependency worktrees after upstream issue handling, review
 and release. See `docs/dependency-consolidation.md` for verified gaps, reproduction
-evidence, issue drafts and adoption order. Publication of the prepared public
-issues is pending explicit approval after automatic review rejected the first
-creation attempt. This does not close the registered-startup phase.
+evidence, published issue links and adoption order. The owner explicitly approved
+publication: Bag #63, Builders #41/#42, DOM JS #1 and the update to Bag JS #4
+are now posted. Upstream consolidation and released-artifact verification remain
+pending. This does not close the registered-startup phase.
