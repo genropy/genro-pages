@@ -27,3 +27,11 @@ New architecture drafts start in temp/ and require review under parent policy.
 Before authoring or changing GUI pages, read [GUI 2.0 authoring guide](docs/gui-2.0-guide.md).
 Maintain it as the separate record of the owner's agreed GUI conventions;
 keep pending API compatibility checks distinct from implemented behavior.
+
+## Dependency consolidation
+
+The owner prefers released dependencies over experimental worktrees. Track missing
+behavior in the owning repository, consolidate and release there, then verify
+Pages against the released artifact before removing the override. Do not silently
+promote branches or substitute local patches for a documented release. See
+[dependency consolidation](docs/dependency-consolidation.md) for the current audit.

@@ -55,3 +55,10 @@ All 92 tests passed from this canonical checkout using its new `.venv` (26.30 s)
 Ruff passed. The server was restarted here on port 8014. A new real-browser
 playground load rendered its live example and both typed Bag XML views. The
 user's existing editor tab was not reloaded, preserving its unsaved experiment.
+
+## Follow-up: dependency consolidation
+
+The owner requested replacing experimental overrides with consolidated releases.
+See [the dependency audit and issue drafts](dependency-consolidation.md). The
+working configuration above remains temporary until the required releases pass
+the integration checks; no dependency branches were changed during the audit.

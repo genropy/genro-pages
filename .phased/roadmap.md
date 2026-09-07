@@ -150,3 +150,11 @@ installs; install a built wheel in a clean environment and launch it without sib
 checkouts or Node; record dependency versions/licenses and select release build,
 manifest and caching details. One authoritative source copy; packaged artifacts
 are build output. No package/repository rename is approved or required.
+
+## Released dependency adoption — owner request, 2026-09-07
+
+Replace experimental dependency worktrees after upstream issue handling, review
+and release. See `docs/dependency-consolidation.md` for verified gaps, reproduction
+evidence, issue drafts and adoption order. Publication of the prepared public
+issues is pending explicit approval after automatic review rejected the first
+creation attempt. This does not close the registered-startup phase.
