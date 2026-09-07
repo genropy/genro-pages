@@ -201,3 +201,24 @@ one confirmed documentation finding corrected, zero dismissed findings. Deferred
 requirements listed above remain future scope, not acceptance failures. No new
 human QA is required for the documentation-only change. Ready for finalize-workflow;
 not a production release or completion of the later Page/Builder architecture.
+
+## Finalization — 2026-09-07
+
+Quality gate at 7ae70e0 is current: all phases closed; Light review and owner QA
+completed; one documentation correction independently verified; no residual
+defects in the workflow scope. Pages code remains exactly as reviewed.
+
+Durable-lesson scan covered phase rationale, startup failed-mount handling,
+relocation/dependency configuration and the Final touch ledger. Runtime ownership
+and transport distinctions are already in the GUI guide and code/tests; current
+setup and dependency adoption rules are in development-checkout and
+dependency-consolidation. The mount-error/cancellation distinction is explicit in
+the bootstrap and its regression test. No additional non-duplicative knowledge
+entry was identified; no external publication is needed.
+
+The owner has authorized local commits only. Finalization uses Commit only:
+archive this plan while retaining the adopted codex/hello-world branch and all
+phase commits; no reset, squash, push, merge or release. Parent resolves locally
+to develop because origin/develop is absent. The roadmap remains for later macros.
+The lightweight live-monitor POC and organic Page/Builder/dataRpc design remain
+in temp and are not promoted to delivered workflow features.

@@ -72,9 +72,10 @@ The completed first Macro 2 slice establishes Application and tool ownership.
 Source-subtree hooks and general connection compatibility still require planning
 before declaring the entire macro complete.
 
-## Registered startup continuation — planned
+## Registered startup continuation — completed
 
-Active plan: active/registered-page-startup/plan.md.
+Archived plan: done/registered-page-startup/plan.md.
+Both phases are closed; Light quality-check passed with one documentation correction.
 Completes the identity/channel slice of Macro 3, preserving the earlier ownership
 work. It does not mark Macros 2 or 3 complete in their entirety.
 
