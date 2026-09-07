@@ -123,3 +123,12 @@ includes it under `genro_pages/resources`; development serves the original sourc
 `genro-dom-js` owns generic rendering and binding, independent of pages or ASGI.
 Packaging all browser dependencies and validating a standalone installation without
 sibling checkouts remain on the roadmap. A source move is not a complete release bundle.
+
+## Architecture and handoff
+
+The [architecture record](docs/architecture/index.md) and
+[initial experiment handoff](docs/architecture/handoff.md) preserve the original
+requirements and open questions. Consult the current GUI guide and active phased
+plan for subsequent implementation progress.
+
+Current local paths and commands: [development checkout](docs/development-checkout.md).

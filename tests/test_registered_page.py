@@ -1,5 +1,6 @@
 """Registered-page behavioral contracts; bind to real integration in phase 1."""
 import base64
+import os
 from pathlib import Path
 from unittest.mock import patch
 
@@ -30,7 +31,7 @@ class RegisteredPageChecks:
 
 @pytest.fixture
 def registered_pages(tmp_path):
-    worker = PageWorker("test_pages", client_modules=Path(__file__).resolve().parents[2],
+    worker = PageWorker("test_pages", client_modules=Path(os.environ.get("GENRO_CLIENT_MODULES", Path(__file__).resolve().parents[2])),
                         freeze_handler=FreezeHandler(tmp_path / "frozen"))
     yield RegisteredPageChecks(worker)
     worker.traffic_pool.shutdown()

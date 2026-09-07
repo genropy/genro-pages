@@ -28,7 +28,7 @@ async def test_real_worker_registers_pages_before_their_channels_open():
     with TemporaryDirectory(prefix="pages-", dir="/tmp") as state:
         with open(Path(state) / "server.log", "w+") as log:
             process = subprocess.Popen(
-                [sys.executable, "-m", "genro_pages", "--modules", str(root.parent),
+                [sys.executable, "-m", "genro_pages", "--modules", os.environ.get("GENRO_CLIENT_MODULES", str(root.parent)),
                  "--port", str(port), "--state-dir", state],
                 cwd=root, env=env, stdout=log, stderr=log, start_new_session=True)
             try:

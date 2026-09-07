@@ -18,7 +18,11 @@ All general policies are inherited from that document.
 - Use develop as the integration base. main is the stable branch.
 - Code and documentation are in English. Do not add attribution or co-author markers.
 
-Read README.md for scope. Architecture drafts belong in temp/ and require review.
+Read README.md for scope, then [architecture decisions](docs/architecture/decisions.md)
+and the [experiment handoff](docs/architecture/handoff.md) before continuing work.
+The architecture record was explicitly requested by the owner for continuity.
+Distinguish recorded user requirements from proposed implementation contracts.
+New architecture drafts start in temp/ and require review under parent policy.
 
 Before authoring or changing GUI pages, read [GUI 2.0 authoring guide](docs/gui-2.0-guide.md).
 Maintain it as the separate record of the owner's agreed GUI conventions;

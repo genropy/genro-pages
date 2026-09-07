@@ -2,6 +2,10 @@
 
 Date: 2026-09-05. Implemented and observed locally; not a general page protocol.
 
+For the current checkout, environment and start command, see the
+[relocation record](development-checkout.md). Commands and versions below
+record the original experiment.
+
 ## Dependencies used
 
 | Repository | Commit | Role |
@@ -18,7 +22,7 @@ The JS repositories are isolated worktrees under
 there is a symlink to the original checkout. No library code is vendored into
 pages. Existing untracked files in the original repositories were not modified.
 
-## Actual local start command
+## Original local start command (historical)
 
 ```sh
 PYTHONPATH=/Users/gporcari/Documents/ChatGPT/genro-pages/worktrees/genro-pages/src:/Users/gporcari/Sviluppo/genro_ng/meta-genro-modules/sub-projects/genro-builders/src:/Users/gporcari/Sviluppo/genro_ng/meta-genro-modules/sub-projects/genro-bag/src:/Users/gporcari/Sviluppo/genro_ng/meta-genro-modules/sub-projects/genro-tytx/src \

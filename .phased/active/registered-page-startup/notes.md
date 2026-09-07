@@ -130,3 +130,10 @@ passed. DOM dependency checkpoint: 718acbe on codex/python-js-alignment.
 Owner confirmed the phase-2 usability check with “ok” after the browser handover. Naming review is the remaining closure gate.
 
 Owner requested readable page source before naming closure. Enabled the existing HtmlRenderer pretty option for the bootstrap document and indented its import map JSON. Raw script values remain intact; the source recipe and runtime DOM are unchanged.
+
+## Checkout relocation — 2026-09-07
+
+The owner requested working alongside genro-asgi. The active branch now resides
+in `/Users/gporcari/Sviluppo/genro_ng/meta-genro-modules/sub-projects/genro-pages`.
+See `temp/relocation-20260907.md` for preserved documents, explicit experimental
+dependency roots and reproduction commands. Phase-2 naming approval is still pending.
