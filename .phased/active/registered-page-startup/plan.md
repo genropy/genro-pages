@@ -1,0 +1,40 @@
+# Context: codex/hello-world
+Parent: develop
+Mode: interactive
+Channel: in-chat
+Must not break: Each browser page owns its genro runtime, source Bag and one rooted data Bag; future iframe pages require independent identities and cleanup.
+Must not break: Only the root page will own the physical WebSocket; this workflow must not make per-frame sockets an architectural requirement.
+Must not break: Typed source/data values and existing JSON/MessagePack recipe demonstrations, gallery, inspector and playground remain regression consumers.
+Must not break: Future authentication must use the core identity and connection lifecycle; client-supplied page IDs never authorize access.
+Must not break: Future selective data synchronization must not require mirroring all client datasets on the server.
+
+## Objective
+Complete the registered-page startup slice of the Python bootstrap macro. The server registers the page before returning builder-generated HTML; the browser creates genro before requesting its source, opens the page channel, and builds the recipe through the existing runtime.
+
+## Work Plan
+- [ ] **Phase 1**: Registered page identity in the Python bootstrap
+  - Run: fable / high
+  - Pattern: `src/genro_pages/application.py:WebpageApplication.index`; `src/genro_pages/page_document.py:PageDocument`.
+  - Files: `src/genro_pages/application.py`, `src/genro_pages/page.py`, `src/genro_pages/page_document.py`, `src/genro_pages/__main__.py`, `pyproject.toml`, `tests/test_registered_page.py`; new worker/configuration modules only as required by the verified integration seam.
+  - Decisions: Use native ASGI hosted by SpaWorker.asgi_app. Use genro_toolbox.uid.get_uuid for the 22-character page identity. Use the core registration and cookie machinery, not a parallel pages registry. Preserve existing page selection and Python DOM document composition. No database integration in this slice.
+  - Details: First trace legacy _register_new_page, connection creation, page arguments, registration callback and initial HTML identity against the core's actual request scope and register APIs. Record the comparison and intentional differences in notes. Verify the corrected core revision/release: mail confirms 5ae8a4f, not publication of 0.43.1. Use the verified revision for development if needed; never claim an unverified published minimum. Host the application once per worker, register the selected page before emitting HTML, and place its actual page_id in the typed startup Bag. Run blocking work through the worker's run_sync where needed. Do not copy the probe's ad hoc cookie parsing or UUID generation. Unsettled identity ownership, public names or lifecycle semantics must be discussed in this conversation before implementation; update the plan if the verified seam invalidates it.
+  - Done: The plan's phase-1 skeleton tests, copied into the test tree and implemented against real integration, pass. A real worker process serves HTML containing an already registered page_id; two page loads create distinct page identities under the correct connection. Unknown pages do not create a page registration. Existing Python tests and ruff check src tests pass. Record exact core version/revision and launch command in notes.
+- [ ] **Phase 2**: Page-owned startup and source over the channel
+  - Run: fable / high
+  - Pattern: `src/genro_pages/resources/bootstrap.js:renderPage`; `tests/test_page_bootstrap.py:BootstrapChecks`.
+  - Files: `src/genro_pages/resources/bootstrap.js`, `src/genro_pages/application.py`, `tests/page_bootstrap.mjs`, `tests/test_registered_channel.py`, `README.md`, `docs/gui-2.0-guide.md`; a focused client transport module if required, owned through genro.
+  - Decisions: Browser-native WebSocket; existing core WSX envelope and TYTX codec, no new wire protocol. Create genro before the source request. Open the registered page channel before requesting source through it. Keep HTTP for initial document, assets and cookie-dependent operations. This slice serves root pages; iframe multiplexing is a later macro. Preserve separate source and data Bags and existing development tools.
+  - Details: First trace legacy GenroClient startup, source acquisition, build completion and page-start callbacks; compare their ordering with the current Application constructor/dispose contract. Record what ready means at each observed boundary without inventing compatible hook names. Move channel ownership beneath genro and use the registered page identity throughout. Preserve stale-result protection and idempotent cleanup, including close during startup. Report channel failures visibly without silently replacing registered startup with the old anonymous HTTP path. Preserve JSON/MessagePack demonstrations using the transports actually supported by the core; distinguish inner recipe serialization from the outer WSX transport. Any unsupported combination is a discussion point, not an invented binary protocol.
+  - Done: The plan's phase-2 skeleton tests, copied into the test tree and implemented, pass. A real browser against a real worker loads Hello World and a gallery page through registered startup; genro exists before the source call, and channel opening precedes it. A foreign connection cannot use the page identity. Closing/disposal during a pending startup cannot mount stale UI. Gallery, inspector and playground regression tests pass, as do Python tests and ruff check src tests. Record browser evidence and exact protocol/revision; do not claim freeze/resume coverage without a successful test.
+  - Verify: now — the gallery and playground remain understandable and usable during startup and after an error; compare their behavior with the familiar demo.
+
+## Notes
+- Planning approval: interactive, same conversation, existing branch, first registered-startup milestone; owner requested an explicit remainder list.
+- Before EVERY phase, read the relevant legacy implementation, not only its documentation. Present meaningful behavioral differences and ask when in doubt before changing semantics. If an intermediate finding changes later assumptions, re-plan rather than following this document mechanically.
+- Public API names beyond existing verified contracts are not ratified by this plan. Present required additions before implementing them; avoid speculative wrappers.
+- Only local commits are authorized. No push, merge, dependency repository edits or release are part of this workflow.
+- The existing direct demo is not proof of worker integration. The temporary browser probe is evidence, not production code to transplant.
+- Reference legacy: /Users/gporcari/Sviluppo/Genropy/genropy/gnrpy/gnr/web/gnrwebpage.py:_register_new_page; inspect its actual header/template and GenroClient startup consumers before implementation.
+- Core reference: genro_asgi/spa/orchestration/spa_worker.py:asgi_app, run_sync, add_page, new_connection; core owns authorization and cookie admission.
+- Baseline commands: PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src python -m pytest tests/ -q --tb=short; python -m ruff check src tests. Use an isolated integration environment for the verified core when required.
+- Remaining scope and unresolved decisions live in .phased/roadmap.md; this workflow does not imply completion of the full lifecycle or resource system.

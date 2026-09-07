@@ -64,3 +64,60 @@ not settle them. This roadmap does not authorize speculative facades or new APIs
 The completed first Macro 2 slice establishes Application and tool ownership.
 Source-subtree hooks and general connection compatibility still require planning
 before declaring the entire macro complete.
+
+## Registered startup continuation — planned
+
+Active plan: active/registered-page-startup/plan.md.
+Completes the identity/channel slice of Macro 3, preserving the earlier ownership
+work. It does not mark Macros 2 or 3 complete in their entirety.
+
+## Remaining bootstrap and resource work
+
+Every item starts with an implementation-level legacy comparison and an owner
+question whenever changing semantics is necessary. Completed slices stay recorded
+above; the following are outstanding, not implied by a working Hello World.
+
+1. **Page lifecycle completion.** Registration/start/build/ready hooks, request
+   context, teardown, final beacon, expiration, freeze/resume and reconnect.
+   Requires registered startup; ends at documented and tested lifecycle behavior.
+   Decide precisely which legacy callbacks remain public and their ordering.
+2. **Resources required by a page.** Normalize compatible js_requires/css_requires
+   declarations; resolve package/component contributions, deduplication and CSS
+   precedence. Keep py_requires separate: it composes Python behavior and overrides,
+   not just files. Decide modern declaration syntax and inheritance explicitly.
+3. **Late resources and Web Components.** Load the required collections and their
+   dependencies before building dynamically requested recipe fragments; deduplicate
+   concurrent loads and surface failures. Decide core versus optional collections.
+   Current gallery imports do not implement selective resource loading.
+4. **Production asset build.** Evaluate the recent legacy Python EsmBuilder plus
+   esbuild against dependency resolution, exports, CSS, shared libraries, dynamic
+   imports, version locking, hashed URLs and browser caching. Raw ESM remains the
+   development starting point. Vite is not selected. Existing evaluation draft:
+   temp/esm-resource-evaluation.md; it is not an approved production design.
+5. **Root and nested iframe pages.** Independent genro runtimes and page IDs;
+   root-only physical WebSocket, validated postMessage routing, recursive cleanup,
+   parent/root relationships and reconnect behavior. Browser caching shares bytes,
+   not window globals or custom-element registries. No parent-global class sharing
+   is assumed. Requires identity and lifecycle work from earlier slices.
+6. **Recipe execution compatibility.** Complete source-node ownership, callback
+   this, relative paths, GET/SET/PUT/FIRE, topics, connections and data providers.
+   Preserve familiar authoring semantics only where verified. Use modern internals.
+7. **Authentication and a real form.** Guest-to-authenticated transition, auth tags,
+   page/menu permissions, dataFormula/dataController/dataRpc and server validation.
+   Address pending edits, stale replies and save ordering. Requires the core's
+   ratified identity lifecycle and builder/runtime support, not declaration alone.
+8. **Data and database integration.** Selective synchronized data subtree, initial
+   values/dirty state and remote source fragments; do not mirror large client grids.
+   A legacy DB may be plugged in until the new SQL layer exists. Hybrid package/v2
+   routing remains later work; native ASGI pages come first.
+9. **Mobile and accessibility.** Carry pointer cancellation, touch handles,
+   keyboard options, focus and scrolling through all component changes; distinguish
+   browser automation from actual device evidence. Continue container/widget review.
+
+Requires of earlier work: real server identity, one rooted data Bag per page,
+source/data type preservation, page-owned cleanup, no mandatory iframe socket,
+no fixed all-widget bundle or database choice embedded in page startup.
+
+External status at planning: asgi-coord's 2026-09-07_1900 mail confirms the browser
+proof at 5ae8a4f and leaves merge/release 0.43.1 to the owner. Verify availability
+before changing dependency requirements. Freeze/resume has not been demonstrated.
