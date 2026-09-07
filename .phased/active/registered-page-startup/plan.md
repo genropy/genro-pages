@@ -47,3 +47,7 @@ Complete the registered-page startup slice of the Python bootstrap macro. The se
 - Core reference: genro_asgi/spa/orchestration/spa_worker.py:asgi_app, run_sync, add_page, new_connection; core owns authorization and cookie admission.
 - Baseline commands: PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src python -m pytest tests/ -q --tb=short; python -m ruff check src tests. Use an isolated integration environment for the verified core when required.
 - Remaining scope and unresolved decisions live in .phased/roadmap.md; this workflow does not imply completion of the full lifecycle or resource system.
+
+## Quality check
+
+> Quality check: 2026-09-07T13:50:37+02:00 — commit fd0e94b — review light, QA done, findings 1 confirmed, 0 dismissed, final touch 1 corrections

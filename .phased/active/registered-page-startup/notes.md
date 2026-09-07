@@ -167,12 +167,12 @@ then finalize-workflow. No push, merge or release performed.
 Reviewed revision: Pages 9c52fed; sibling DOM eaaa0ac (scope f743e6c..eaaa0ac).
 Review depth: Light, with a fresh read-only independent reviewer. User QA and
 naming acceptance are retained from phase closure. No new UI behavior is changed.
-Correction revision: pending commit. The owner approved this one documentation
+Correction revision: fd0e94b. The owner approved this one documentation
 correction on 2026-09-07.
 
 | Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
 | --- | --- | --- | --- | --- |
-| README quickstart used TYTX 80529f7, --modules .. and only PYTHONPATH=src; from the relocated checkout it selects canonical DOM lacking mountBuilder | Old setup instructions survived the registered-startup relocation | Link the verified development environment and dependency audit prominently, remove the obsolete pin and command, align test instructions and local port | Check links, documented environment, module roots and absence of obsolete quickstart; independent review of this documentation delta | Corrected; independent verification pending |
+| README quickstart used TYTX 80529f7, --modules .. and only PYTHONPATH=src; from the relocated checkout it selects canonical DOM lacking mountBuilder | Old setup instructions survived the registered-startup relocation | Link the verified development environment and dependency audit prominently, remove the obsolete pin and command, align test instructions and local port | Check links, documented environment, module roots and absence of obsolete quickstart; independent review of this documentation delta | Corrected; independent verification passed |
 | Phase naming and human QA | No remaining issue | All 12 names accepted; phase usability accepted | Marker sweep empty; original contract skeletons unchanged and implemented names/contract lines preserved | Accepted; no correction |
 | Released dependencies and complete browser bundle | Explicit later delivery scope | Preserve experimental overrides and upstream release adoption requirements | README and dependency-consolidation/development-checkout documentation agree | Deferred; not an implemented release claim |
 | dataRpc provider/callable routing, root/iframe multiplexing, reconnect/replay, authentication transition, freeze/resume | Explicit later architecture and lifecycle scope | Preserve the recorded roadmap and organic Page/Builder proposal | Compared phase acceptance and Must not break with current integration | Deferred; no concrete conflict identified in this slice |
@@ -188,5 +188,16 @@ phase evidence. This is not a clean-install or released-dependency certification
 Checks reused from closure: 92 Pages tests, 131 DOM tests, ruff and mypy passed;
 both phase contract skeletons retain their original names and wf:contract lines.
 The correction changes documentation only, so no runtime suite repeat is needed.
-Final focused independent verification is pending. No residual runtime finding;
-the documentation finding remains open until that verification succeeds.
+Final focused independent verification passed on 9c52fed..fd0e94b, including
+the affected development/dependency documents and actual module paths. README
+links and Environment anchor resolve; documented roots contain the required
+mountBuilder API; port 8014 matches the launch command. The obsolete TYTX pin
+and incomplete launch/test commands are removed. Only README and this ledger
+changed. No full suite was rerun for this documentation-only delta. The final-touch
+commit hook passed ruff and mypy; git diff --check passed. No residual defects.
+
+Quality-check outcome: Light review; QA done (prior owner confirmation retained);
+one confirmed documentation finding corrected, zero dismissed findings. Deferred
+requirements listed above remain future scope, not acceptance failures. No new
+human QA is required for the documentation-only change. Ready for finalize-workflow;
+not a production release or completion of the later Page/Builder architecture.
