@@ -41,3 +41,17 @@ All entries are required; no speculative helper was retained.
 | test_real_worker_registers_pages_before_their_channels_open | test prefix fixed; suffix free | tests/test_registered_server.py | 1 |
 
 Naming review: owner accepted all names. Markers removed without behavioral changes. Closing contract comparison and skeleton integrity checks passed. No human verification remains for phase 1.
+
+
+## Phase 2 — ownership and distribution decision
+
+The owner approved this architectural direction in conversation:
+- Keep genro-dom-js as an independent JavaScript construction/rendering library, usable without pages or an ASGI backend.
+- Keep Python and the JavaScript specific to page integration in the genro-pages repository. No genro-pages-js repository or blanket rename of genro-dom-js is selected.
+- Use src/genro_pages for Python and js/src for shared integration JavaScript; page-specific JS/CSS may remain beside page recipes under the future resource convention.
+- Package compatible integration JS/CSS in the genro-pages wheel. End-user installation must not require npm or compilation; release-time preparation is distinct from browser asset delivery.
+- The DOM library may be published independently as ESM/npm. A pages release should include a precise tested set of necessary browser dependencies. CDN delivery is optional, not required.
+
+Covering plan edit: added ownership/distribution Must not break headers and clarified Phase 2 Details. Existing acceptance tests are unchanged. The actual source relocation, generic mount API and packaging implementation are not claimed complete; detailed integration scope still needs the phase gate after this architectural clarification.
+
+Preflight evidence: Application currently mounts in its constructor and BuilderBase.loadSource rejects mounted builders. A clean delayed-mount boundary must be designed rather than worked around through bootstrap internals. Core WSX rehydrates JSON/MessagePack hosted responses and emits TYTX JSON text; MessagePack response selection is not a binary WebSocket transport. Hosted source selection must follow the registered page and its owning connection.

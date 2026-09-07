@@ -128,3 +128,24 @@ no fixed all-widget bundle or database choice embedded in page startup.
 External status at planning: asgi-coord's 2026-09-07_1900 mail confirms the browser
 proof at 5ae8a4f and leaves merge/release 0.43.1 to the owner. Verify availability
 before changing dependency requirements. Freeze/resume has not been demonstrated.
+
+
+## Approved repository and distribution boundary
+
+- genro-pages owns Python page/server integration and its browser integration code.
+- genro-dom-js remains independent of Python, ASGI, page identity and transport.
+  Dependencies flow from pages to DOM, never back from DOM to pages.
+- Target source layout: src/genro_pages for Python; js/src and js/tests for shared
+  page-integration JavaScript. Page-specific assets are a separate resource concern.
+- The genro-pages wheel ships compatible JS/CSS and the required, precisely
+  selected browser dependency artifacts. Users install the Python package without
+  running npm or a JavaScript build. DOM can also ship as an independent ESM/npm
+  library. CDN delivery is optional.
+
+Still to implement and verify: classify existing resources by ownership; define
+and test generic deferred mounting; move integration sources and adjust tests,
+imports and asset lookup; configure wheel AND sdist inclusion; verify editable
+installs; install a built wheel in a clean environment and launch it without sibling
+checkouts or Node; record dependency versions/licenses and select release build,
+manifest and caching details. One authoritative source copy; packaged artifacts
+are build output. No package/repository rename is approved or required.
