@@ -4,7 +4,7 @@ import argparse
 
 from genro_asgi import AsgiServer
 
-from .demo import DemoApplication
+from .server_configuration import PageConfiguration
 
 
 class Cli:
@@ -15,8 +15,10 @@ class Cli:
         parser.add_argument("--modules", required=True)
         parser.add_argument("--host", default="127.0.0.1")
         parser.add_argument("--port", type=int, default=8000)
+        parser.add_argument("--state-dir", help="Worker state directory (default: /tmp/genro-pages-PORT)")
         options = parser.parse_args()
-        server = AsgiServer(applications=[DemoApplication(client_modules=options.modules)])
+        configuration = PageConfiguration(options.modules, options.state_dir or f"/tmp/genro-pages-{options.port}")
+        server = AsgiServer(config=configuration)
         server.serve(host=options.host, port=options.port)
 
 

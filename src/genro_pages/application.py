@@ -8,7 +8,10 @@ Subclass main(root) remains supported for the original one-page experiment.
 """
 from pathlib import Path
 
-from genro_asgi import HTTPBadRequest, HTTPNotFound, Response, RoutedApplication
+from genro_asgi import HTTPBadRequest, HTTPForbidden, HTTPNotFound, Response, RoutedApplication
+from genro_asgi.applications.spa_app import SPA_CONNECTION_ID_COOKIE
+from genro_asgi.middleware.base import cookie_value
+from genro_toolbox import get_uuid
 from genro_builders.contrib.html.html_builder import HtmlBuilder
 from genro_bag import Bag
 from genro_routes import route
@@ -23,10 +26,11 @@ class WebpageApplication(RoutedApplication):
 
     mount = ""
 
-    def __init__(self, *, client_modules, pages=None, menu_class=None, default_page=None, **kwargs):
+    def __init__(self, *, client_modules, pages=None, menu_class=None, default_page=None, worker=None, **kwargs):
         super().__init__(**kwargs)
         if self.mount != "":
             raise ValueError("This experiment requires root mounting")
+        self.worker = worker
         self.pages = dict(pages or {})
         self.menu_class = menu_class
         self.default_page = default_page
@@ -105,7 +109,7 @@ class WebpageApplication(RoutedApplication):
                 raise ValueError(f"Unsupported menu tag: {node.node_tag}")
 
     @route(media_type="text/html")
-    def index(self, page=None, transport="json"):
+    def index(self, page=None, transport="json", _request=None):
         """Build the document and typed startup configuration on the server."""
         if transport not in ("json", "msgpack"):
             raise HTTPBadRequest("Supported transports: json, msgpack")
@@ -128,6 +132,17 @@ class WebpageApplication(RoutedApplication):
             menu_builder.create()
             menu = menu_builder.source
             self.validate_menu(menu)
+        if self.worker is not None:
+            cid = cookie_value(_request.scope, SPA_CONNECTION_ID_COOKIE)
+            connection = self.worker.connection_register.get(cid) if cid else None
+            if connection is not None and connection["user"] != _request.scope.get("genro.identity"):
+                raise HTTPForbidden("Connection does not belong to this request")
+            if connection is None:
+                cid = get_uuid()
+                self.worker.new_connection(cid)
+            page_id = get_uuid()
+            self.worker.add_page(page_id, cid, page=selected)
+            startup.set_item("page_id", page_id)
         document = PageDocument(startup, menu)
         document.create()
         return "<!doctype html>\n" + document.render(target=False, xml=False)
@@ -145,7 +160,12 @@ class WebpageApplication(RoutedApplication):
                     or target.suffix not in (".js", ".mjs", ".css") or not target.is_file()):
                 await Response("Not found", status_code=404)(scope, receive, send)
                 return
-            content = b"" if scope.get("method") == "HEAD" else target.read_bytes()
+            if scope.get("method") == "HEAD":
+                content = b""
+            elif self.worker is not None:
+                content = await self.worker.run_sync(target.read_bytes)
+            else:
+                content = target.read_bytes()
             await Response(content, media_type="text/css" if target.suffix == ".css" else "text/javascript")(scope, receive, send)
             return
         await super().__call__(scope, receive, send)

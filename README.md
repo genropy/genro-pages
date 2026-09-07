@@ -28,6 +28,17 @@ Open http://127.0.0.1:8010/. The disclosure below the page shows the mounted Jav
 using `builder.source.toXml({pretty: true})`. It refreshes when opened. `window.genro` and `window.page`
 expose the client runtime and source builder for inspection.
 
+The command launches a native ASGI application in the genro-asgi worker pool
+(requires genro-asgi 0.43.1). Each valid HTML request registers a toolbox-generated
+22-character page ID before embedding it in the TYTX startup Bag. The core emits
+the connection cookie. The source still travels over HTTP until the next startup
+phase; registration alone does not imply the client uses WebSocket yet.
+
+Worker state defaults to `/tmp/genro-pages-PORT`; use `--state-dir` to select another
+short local path (Unix socket paths have a length limit). The direct application
+constructor used by isolated recipe tests still supports unregistered rendering.
+The current local builder 0.23.2 is required and is not yet available from PyPI.
+
 The server is mounted at the site root and binds to loopback by default. The
 source-directory asset server is intended for this local experiment; bundled
 asset distribution is not implemented. Only `.js` and `.mjs` files beneath the configured

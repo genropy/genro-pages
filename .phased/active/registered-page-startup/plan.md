@@ -12,7 +12,9 @@ Must not break: Future selective data synchronization must not require mirroring
 Complete the registered-page startup slice of the Python bootstrap macro. The server registers the page before returning builder-generated HTML; the browser creates genro before requesting its source, opens the page channel, and builds the recipe through the existing runtime.
 
 ## Work Plan
-- [ ] **Phase 1**: Registered page identity in the Python bootstrap
+- [x] **Phase 1**: Registered page identity in the Python bootstrap
+  > Done: Registered native worker startup embeds a toolbox page ID before HTML; core cookie/connection ownership verified. 86 tests passed, including a launched worker-pool integration; lint and independent review clean. Names accepted by the owner.
+  > Files: src/genro_pages/application.py, src/genro_pages/__main__.py, src/genro_pages/worker.py, src/genro_pages/server_configuration.py, tests/test_registered_page.py, tests/test_registered_server.py, pyproject.toml, README.md, .phased/roadmap.md, .phased/active/registered-page-startup/plan.md, .phased/active/registered-page-startup/notes.md
   - Run: fable / high
   - Pattern: `src/genro_pages/application.py:WebpageApplication.index`; `src/genro_pages/page_document.py:PageDocument`.
   - Files: `src/genro_pages/application.py`, `src/genro_pages/page.py`, `src/genro_pages/page_document.py`, `src/genro_pages/__main__.py`, `pyproject.toml`, `tests/test_registered_page.py`; new worker/configuration modules only as required by the verified integration seam.

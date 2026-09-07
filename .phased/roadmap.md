@@ -5,6 +5,13 @@ Channel: in-chat
 
 ## Agreed direction
 
+Legacy is reference experience, not the new product's specification. For every
+mechanism, identify the problem it solved, verify that the problem still exists,
+and choose a modern implementation on its merits. Preserve useful mental models
+and compatibility where they have concrete value; do not retain weak or obsolete
+solutions solely for similarity. The GUI coordinator must surface these tradeoffs
+and ask the owner when the behavioral decision is unclear.
+
 Preserve the legacy authoring mental model with modern, maintainable internals.
 Python builds both the bootstrap document (DOM builder, no Mako) and page recipes.
 Each page owns genro, a source Bag and one rooted data Bag. Recipe callbacks use
