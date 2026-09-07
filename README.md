@@ -30,7 +30,7 @@ using `builder.source.toXml({pretty: true})`. It refreshes when opened. `window.
 expose the client runtime and source builder for inspection.
 
 The command launches a native ASGI application in the genro-asgi worker pool
-(requires genro-asgi 0.43.1). Each valid HTML request registers a toolbox-generated
+(requires genro-asgi >=0.43.1,<0.44 while the announced SPA import migration is pending). Each valid HTML request registers a toolbox-generated
 22-character page ID before embedding it in the TYTX startup Bag. The core emits
 the connection cookie. The browser creates its `PageApplication` (`genro`) before
 requesting source, opens its registered WSX channel, then mounts the typed recipe.

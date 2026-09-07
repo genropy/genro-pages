@@ -159,3 +159,24 @@ evidence, published issue links and adoption order. The owner explicitly approve
 publication: Bag #63, Builders #41/#42, DOM JS #1 and the update to Bag JS #4
 are now posted. Upstream consolidation and released-artifact verification remain
 pending. This does not close the registered-startup phase.
+
+## Mailbox boundary update — 2026-09-07
+
+The owner approved the temporary `genro-asgi>=0.43.1,<0.44` requirement and a
+Pages/Stack boundary review before further migration. ASGI 0.44 will move SPA
+imports without re-exports; await definitive paths and a released artifact.
+Draft: `temp/pages-stack-boundary.md`. The four direct host modules are not the
+whole extraction: demo subclasses, tests, string entry_module paths, packaging
+and concrete client WSX ownership must be considered. No Stack repo or extraction
+is implemented or approved by this note. The prior boundary above records the
+current implementation; the proposed direction would supersede its host ownership.
+
+Bridge response: one router per worker after fork; worker supplies gnr_site.
+No mixed-router hook/public signature is declared implemented. TYTX unknown-branch
+behavior also needs clarification against spec 2.5 before consolidating the
+strict-rejection part of Bag #63 and Bag JS #4.
+
+Verification: built wheel metadata matches the source requirement, accepts the
+installed 0.43.1 and rejects 0.44.0. No runtime imports changed. Replies to bridge,
+asgi-coord and tytx are drafted in `temp/mail-outbox/`; delivery was blocked by
+automatic review pending explicit payload/destination approval. None were sent.

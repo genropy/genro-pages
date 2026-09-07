@@ -34,6 +34,21 @@ alias repro raises TypeError. Tests were copied outside the experimental repos
 to avoid their conftest source-path overrides. This is a targeted compatibility
 probe, not a full test run of those released projects.
 
+## Mailbox follow-up requiring clarification
+
+The ASGI coordinator announced a future 0.44 SPA import move and a proposed
+Pages/Stack split. The current host integration is temporarily bounded to
+`genro-asgi>=0.43.1,<0.44`. Generic Bag/Builders/DOM consolidation remains valid;
+page hosting and concrete WSX ownership must not leak into those libraries.
+
+Before implementing the unknown-branch acceptance item in Bag #63 / Bag JS #4,
+reconcile it with TYTX spec §2.5: the specification preserves the hierarchy for an
+unregistered branch code, while the experimental candidate rejects that branch.
+A valid row with an unknown type code differs from an invalid parent reference.
+The unresolved-container policy remains a question for the owner; do not claim
+the candidate rejection is already the agreed TYTX behavior. Published text below
+is retained as an exact historical record, not a resolution of this question.
+
 ## Order
 
 1. Consolidate Python/JS Bag structural contracts with shared fixtures.
