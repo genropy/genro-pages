@@ -16,18 +16,20 @@ The concrete page defines `main(root)`. The common base serves an empty browser
 shell at `/`, the typed recipe at `/main`, and explicitly configured JS sources
 at `/_assets/`. The browser retains its source Bag and datastore.
 
-Use the matching `codex/python-js-alignment` branches of genro-bag-js and
-genro-dom-js, plus genro-tytx commit `80529f7`. They must be sibling folders under
-the directory passed as `--modules`. genro-tytx may be a symlink to its checkout.
-Install Python dependencies in the chosen environment, then from this repository:
+For the verified launch command, dependency paths and test environment, follow
+[Development checkout](docs/development-checkout.md). The current prototype uses
+explicit experimental Python and JavaScript dependency checkouts; the published
+Python packages alone are not sufficient. See [Dependency consolidation](docs/dependency-consolidation.md)
+for the required upstream changes and release adoption criteria.
 
-```sh
-PYTHONPATH=src python -m genro_pages --modules .. --port 8010
-```
+In the relocated checkout, do not substitute `--modules ..` for the documented
+module directory: the canonical sibling DOM checkout does not yet provide the
+required deferred-mount API. The development guide selects the verified sources.
 
-Open http://127.0.0.1:8010/. The disclosure below the page shows the mounted JavaScript source Bag as XML,
-using `builder.source.toXml({pretty: true})`. It refreshes when opened. `window.genro` and `window.page`
-expose the client runtime and source builder for inspection.
+The documented local server runs at http://127.0.0.1:8014/. The disclosure below
+the page shows the mounted JavaScript source Bag as XML, using
+`builder.source.toXml({pretty: true})`. It refreshes when opened. `window.genro`
+and `window.page` expose the client runtime and source builder for inspection.
 
 The command launches a native ASGI application in the genro-asgi worker pool
 (requires genro-asgi >=0.43.1,<0.44 while the announced SPA import migration is pending). Each valid HTML request registers a toolbox-generated
@@ -50,10 +52,10 @@ roots are served.
 
 ## Validation
 
-```sh
-PYTHONPATH=src python -m pytest tests/
-ruff check src/ tests/
-```
+Run the test command in [Development checkout](docs/development-checkout.md#environment)
+with the same dependency environment used to start the server. Preserve both
+`GENRO_CLIENT_MODULES` and the documented Python source overrides. Run
+`.venv/bin/python -m ruff check src tests` for lint.
 
 The integration test calls the real AsgiServer, sends its `/main` output to the
 JS runtime under jsdom, and checks nesting/order, text, typed attributes and

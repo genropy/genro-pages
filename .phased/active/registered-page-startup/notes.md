@@ -161,3 +161,32 @@ are follow-up feasibility/design work, not part of this phase's Done gate.
 
 The registered-startup workflow now has both phases closed. Next: quality-check,
 then finalize-workflow. No push, merge or release performed.
+
+## Final touch
+
+Reviewed revision: Pages 9c52fed; sibling DOM eaaa0ac (scope f743e6c..eaaa0ac).
+Review depth: Light, with a fresh read-only independent reviewer. User QA and
+naming acceptance are retained from phase closure. No new UI behavior is changed.
+Correction revision: pending commit. The owner approved this one documentation
+correction on 2026-09-07.
+
+| Finding and evidence | Root cause | Fix and affected consumers | Verification | Outcome |
+| --- | --- | --- | --- | --- |
+| README quickstart used TYTX 80529f7, --modules .. and only PYTHONPATH=src; from the relocated checkout it selects canonical DOM lacking mountBuilder | Old setup instructions survived the registered-startup relocation | Link the verified development environment and dependency audit prominently, remove the obsolete pin and command, align test instructions and local port | Check links, documented environment, module roots and absence of obsolete quickstart; independent review of this documentation delta | Corrected; independent verification pending |
+| Phase naming and human QA | No remaining issue | All 12 names accepted; phase usability accepted | Marker sweep empty; original contract skeletons unchanged and implemented names/contract lines preserved | Accepted; no correction |
+| Released dependencies and complete browser bundle | Explicit later delivery scope | Preserve experimental overrides and upstream release adoption requirements | README and dependency-consolidation/development-checkout documentation agree | Deferred; not an implemented release claim |
+| dataRpc provider/callable routing, root/iframe multiplexing, reconnect/replay, authentication transition, freeze/resume | Explicit later architecture and lifecycle scope | Preserve the recorded roadmap and organic Page/Builder proposal | Compared phase acceptance and Must not break with current integration | Deferred; no concrete conflict identified in this slice |
+
+The independent Light review examined the actual Pages BASE 8522150..9c52fed
+diff and DOM deferred-mount delta: registration/connection ownership, installed
+core 0.43.1 seams, worker run_sync context, startup ordering, late-result/disposal
+guards, WSX and HTTP correlation/errors, typed recipes, JS/CSS relocation and
+packaging configuration. It found no confirmed runtime defects. Wheel building
+was not repeated by the reviewer; prior artifact verification remains recorded
+phase evidence. This is not a clean-install or released-dependency certification.
+
+Checks reused from closure: 92 Pages tests, 131 DOM tests, ruff and mypy passed;
+both phase contract skeletons retain their original names and wf:contract lines.
+The correction changes documentation only, so no runtime suite repeat is needed.
+Final focused independent verification is pending. No residual runtime finding;
+the documentation finding remains open until that verification succeeds.
