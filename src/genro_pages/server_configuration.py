@@ -9,7 +9,8 @@ from genro_asgi.config import AsgiConfigBuilder
 class PageConfiguration(AsgiConfigBuilder):
     default_config = False
 
-    def __init__(self, client_modules, state_dir):
+    def __init__(self, client_modules, state_dir, rpc_http_method="WSK"):
+        self.rpc_http_method = rpc_http_method
         self.client_modules = str(Path(client_modules).resolve())
         self.state_dir = Path(state_dir).resolve()
         super().__init__()
@@ -24,5 +25,5 @@ class PageConfiguration(AsgiConfigBuilder):
         commander.groups(default="pages").group(
             name="pages", entry_module="genro_asgi.spa.orchestration.worker_entry",
             worker_class="genro_pages.worker:PageWorker",
-            worker_kwargs={"client_modules": self.client_modules},
+            worker_kwargs={"client_modules": self.client_modules, "rpc_http_method": self.rpc_http_method},
             main_threadpool_size=4, aux_threadpool_size=1)

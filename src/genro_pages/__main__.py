@@ -16,8 +16,11 @@ class Cli:
         parser.add_argument("--host", default="127.0.0.1")
         parser.add_argument("--port", type=int, default=8000)
         parser.add_argument("--state-dir", help="Worker state directory (default: /tmp/genro-pages-PORT)")
+        parser.add_argument("--rpc-http-method", choices=("WSK", "POST", "GET"), default="WSK",
+                            help="Default RPC transport; individual calls may override it")
         options = parser.parse_args()
-        configuration = PageConfiguration(options.modules, options.state_dir or f"/tmp/genro-pages-{options.port}")
+        configuration = PageConfiguration(options.modules, options.state_dir or f"/tmp/genro-pages-{options.port}",
+                                          rpc_http_method=options.rpc_http_method)
         server = AsgiServer(config=configuration)
         server.serve(host=options.host, port=options.port)
 

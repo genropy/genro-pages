@@ -22,7 +22,7 @@ class PageServer(AsgiServer):
 class PageWorker(SpaWorker):
     """A native ASGI worker for the registered page demonstration."""
 
-    def __init__(self, name, *, client_modules, **kwargs):
+    def __init__(self, name, *, client_modules, rpc_http_method="WSK", **kwargs):
         super().__init__(name, **kwargs)
-        application = DemoApplication(client_modules=client_modules, worker=self)
+        application = DemoApplication(client_modules=client_modules, worker=self, rpc_http_method=rpc_http_method)
         self.asgi_app = PageServer(self, applications=[application])

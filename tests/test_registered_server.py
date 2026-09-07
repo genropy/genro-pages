@@ -12,7 +12,7 @@ from tempfile import TemporaryDirectory
 import httpx
 import pytest
 import websockets
-from genro_tytx import to_tytx
+from genro_tytx import to_tytx, from_tytx
 
 from tests.test_registered_page import RegisteredPageChecks
 
@@ -66,6 +66,35 @@ async def test_real_worker_registers_pages_before_their_channels_open():
                             answer = json.loads((await asyncio.wait_for(ws.recv(), 5))[6:])
                             assert answer["status"] == 200, answer
                             assert answer["id"] == str(index)
+                            for transport in ("json", "msgpack"):
+                                await ws.send("WSX://" + json.dumps(dict(
+                                    id=f"source-{index}-{transport}", method="WSK", path="/main",
+                                    page_id=page_id, data=to_tytx({"transport": transport}, "json"))))
+                                source_reply = json.loads((await asyncio.wait_for(ws.recv(), 5))[6:])
+                                assert source_reply["status"] == 200, source_reply
+                                source = from_tytx(source_reply["data"], "json")
+                                assert len(source) > 0
+                    for method in ("GET", "POST"):
+                        params = {"page_id": pages[0]}
+                        response = (await client.get("/main", params=params) if method == "GET"
+                                    else await client.post("/main", content=to_tytx(params, "json"),
+                                                           headers={"Content-Type": "application/vnd.tytx+json"}))
+                        assert response.status_code == 200, response.text
+                    assert (await client.get("/main")).status_code == 403
+                    async with httpx.AsyncClient(base_url=f"http://127.0.0.1:{port}") as foreign:
+                        await foreign.get("/")
+                        foreign_cid = foreign.cookies["spa_connection_id"]
+                        assert (await foreign.get("/main", params={"page_id": pages[0]})).status_code == 403
+                        async with websockets.connect(
+                            f"ws://127.0.0.1:{port}/_wsx", origin=f"http://127.0.0.1:{port}",
+                            additional_headers={"Cookie": f"spa_connection_id={foreign_cid}"},
+                        ) as ws:
+                            for path in ("/_wsx/openchannel", "/main"):
+                                await ws.send("WSX://" + json.dumps(dict(
+                                    id="foreign", method="WSK", path=path, page_id=pages[0],
+                                    data=to_tytx({}, "json"))))
+                                answer = json.loads((await asyncio.wait_for(ws.recv(), 5))[6:])
+                                assert answer["status"] == 403, answer
             finally:
                 if process.poll() is None:
                     os.killpg(process.pid, signal.SIGTERM)

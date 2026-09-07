@@ -171,7 +171,7 @@ floating windows. Keep visible keyboard focus and increase button targets on
 coarse-pointer devices. This is an initial theme to review, not a completed
 accessibility certification or full legacy theme port.
 
-The demo theme lives in `src/genro_pages/resources/theme.css`. Shared CSS custom
+The demo theme lives in `js/src/theme.css`. Shared CSS custom
 properties reach component shadow roots; retain existing semantic variables
 where available, including label, field, panel and palette properties. Explicit
 recipe styles continue to override theme defaults. Component internals belong
@@ -476,3 +476,19 @@ The resolution of [#38](https://github.com/genropy/genro-builders/issues/38)
 places the future `dataRpc` declaration in a pages-specific mixin using the
 builder's existing data-element metadata. It does not establish RPC execution;
 its signature, pointer handling and transport remain separate work.
+
+## Registered startup and RPC ownership
+
+Page-integration JavaScript lives under `js/src`; Python page recipes remain under
+`src/genro_pages`. Generic DOM construction stays in the standalone DOM library.
+The runtime and its services exist before source acquisition. The source is
+mounted once, after the page channel has opened; disposal prevents late responses
+from reconstructing the page.
+
+`genro.rpc.remoteCall(method, parameters, options)` is the shared page RPC service.
+Application configuration supplies `rpc_http_method` (initial default `WSK`), and
+`options.httpMethod` overrides it for a call. WSK uses the core WSX envelope and
+TYTX; HTTP GET and POST are explicit alternatives. Calls are asynchronous Promises;
+no implicit synchronous RPC or automatic retry is provided. This service is the
+integration foundation for a future `dataRpc` recipe element, not a claim that
+its declarative callbacks or concurrency policies are already implemented.

@@ -26,10 +26,13 @@ class WebpageApplication(RoutedApplication):
 
     mount = ""
 
-    def __init__(self, *, client_modules, pages=None, menu_class=None, default_page=None, worker=None, **kwargs):
+    def __init__(self, *, client_modules, pages=None, menu_class=None, default_page=None, worker=None, rpc_http_method="WSK", **kwargs):
         super().__init__(**kwargs)
         if self.mount != "":
             raise ValueError("This experiment requires root mounting")
+        if rpc_http_method not in ("WSK", "POST", "GET"):
+            raise ValueError("RPC httpMethod must be WSK, POST or GET")
+        self.rpc_http_method = rpc_http_method
         self.worker = worker
         self.pages = dict(pages or {})
         self.menu_class = menu_class
@@ -37,7 +40,8 @@ class WebpageApplication(RoutedApplication):
         if self.pages and default_page not in self.pages:
             raise ValueError("Default page must be registered")
         modules = Path(client_modules).resolve()
-        self.resources = Path(__file__).parent / "resources"
+        source_assets = Path(__file__).resolve().parents[2] / "js" / "src"
+        self.resources = source_assets if source_assets.is_dir() else Path(__file__).parent / "resources"
         self.client_roots = {
             "dom": modules / "genro-dom-js" / "src",
             "bag": modules / "genro-bag-js" / "src",
@@ -54,10 +58,12 @@ class WebpageApplication(RoutedApplication):
         raise NotImplementedError
 
     @route(name="main")
-    def get_main(self, transport="json", page=None):
+    def get_main(self, transport="json", page=None, page_id=None, _request=None):
         """Return the typed source recipe, without rendering HTML in Python."""
         if transport not in ("json", "msgpack"):
             raise HTTPBadRequest("Supported transports: json, msgpack")
+        if self.worker is not None:
+            page = self.get_registered_page(_request, page_id)["page"]
         if self.pages:
             page_class = self.pages.get(page if page is not None else self.default_page)
             if page_class is None:
@@ -88,14 +94,31 @@ class WebpageApplication(RoutedApplication):
                                    media_type=f"application/vnd.tytx+{transport}")
 
     @route(name="inspector")
-    def get_inspector(self):
+    def get_inspector(self, page_id=None, _request=None):
         """Serve the development tool through the same typed recipe boundary."""
+        if self.worker is not None:
+            self.get_registered_page(_request, page_id)
         from .inspector import build_inspector
         from .widget_test_builder import WidgetTestBuilder
         builder = WidgetTestBuilder("inspector")
         build_inspector(builder.source)
         return self.result_wrapper(to_tytx(builder.source, transport="json"),
                                    media_type="application/vnd.tytx+json")
+
+    # wf:phase-2:new
+    def get_registered_page(self, request, page_id=None):
+        """Resolve a page only under its authenticated connection, for either transport."""
+        scope = request.scope if request is not None else {}
+        channel_page = scope.get("genro.page_id")
+        if channel_page and page_id and channel_page != page_id:
+            raise HTTPForbidden("Conflicting page identities")
+        page = self.worker.page_register.get(channel_page or page_id) if channel_page or page_id else None
+        cid = cookie_value(scope, SPA_CONNECTION_ID_COOKIE)
+        connection = self.worker.connection_register.get(cid) if cid else None
+        if (page is None or connection is None or page["connection_id"] != cid
+                or connection["user"] != scope.get("genro.identity")):
+            raise HTTPForbidden("Page does not belong to this request")
+        return page
 
     def validate_menu(self, source):
         """Reject unknown destinations and unsupported vocabulary."""
@@ -118,6 +141,7 @@ class WebpageApplication(RoutedApplication):
         if page_class is None or (not self.pages and page is not None):
             raise HTTPNotFound("Unknown page")
         startup = Bag(dict(page=selected, transport=transport,
+                           rpc=Bag(dict(httpMethod=self.rpc_http_method)),
                            source_inspection=getattr(page_class, "source_inspection", True),
                            endpoints=Bag(dict(main="/main", inspector="/inspector")),
                            hosts=Bag(dict(root="root", tools="developer-tools", error="error",

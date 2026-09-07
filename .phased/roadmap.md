@@ -142,9 +142,10 @@ before changing dependency requirements. Freeze/resume has not been demonstrated
   running npm or a JavaScript build. DOM can also ship as an independent ESM/npm
   library. CDN delivery is optional.
 
-Still to implement and verify: classify existing resources by ownership; define
-and test generic deferred mounting; move integration sources and adjust tests,
-imports and asset lookup; configure wheel AND sdist inclusion; verify editable
+Implemented in registered startup phase 2: generic deferred mounting and pages
+RPC ownership; integration source move, imports, asset lookup, wheel inclusion
+and source-distribution inclusion. Both archives were built and inspected.
+Still to implement and verify: complete bundled dependencies; verify editable
 installs; install a built wheel in a clean environment and launch it without sibling
 checkouts or Node; record dependency versions/licenses and select release build,
 manifest and caching details. One authoritative source copy; packaged artifacts

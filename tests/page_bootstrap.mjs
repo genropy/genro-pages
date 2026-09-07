@@ -40,13 +40,13 @@ if (payload.main) {
         const isMain = url.startsWith('/main?');
         if (isMain) {
             const query = new URL(url, 'http://localhost').searchParams;
-            assert.equal(query.get('page'), payload.route);
-            assert.equal(query.get('transport'), payload.transport);
+            assert.equal(fromTytx(query.get('page')), payload.route);
+            assert.equal(fromTytx(query.get('transport')), payload.transport);
         }
         return {ok: true, text: async () => isMain ? payload.main : payload.inspector,
             arrayBuffer: async () => Uint8Array.from(Buffer.from(payload.main, 'base64')).buffer};
     };
-    await import('../src/genro_pages/resources/bootstrap.js');
+    await import('../js/src/bootstrap.js');
     assert.equal(errors.length, 0, errors.join('\n'));
     assert.equal(window.page.constructor.name, before.builder);
     assert.ok(document.querySelector('#root h1'));

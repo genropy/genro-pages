@@ -5,9 +5,9 @@ import {setupDom} from '../../genro-dom-js/tests/dom.js';
 setupDom();
 const {fromTytx} = await import('genro-tytx');
 const {Application} = await import('genro-dom-js');
-const {PlaygroundBuilder} = await import('../src/genro_pages/resources/playground-page.js');
-const {mountPlayground} = await import('../src/genro_pages/resources/playground.js');
-const {mountInspector} = await import('../src/genro_pages/resources/inspector.js');
+const {PlaygroundBuilder} = await import('../js/src/playground-page.js');
+const {mountPlayground} = await import('../js/src/playground.js');
+const {mountInspector} = await import('../js/src/inspector.js');
 const payload = JSON.parse(readFileSync(0, 'utf8'));
 const decode = value => fromTytx(payload.transport === 'msgpack'
     ? new Uint8Array(Buffer.from(value, 'base64')) : value, payload.transport);
@@ -101,7 +101,7 @@ class Checks {
             if (delayTools) return new Promise(resolve => { pendingTools = resolve; });
             return response(payload.inspectorJson);
         };
-        const {renderPage} = await import('../src/genro_pages/resources/bootstrap.js');
+        const {renderPage} = await import('../js/src/bootstrap.js');
         const initial = window.genro;
         delayTools = true;
         const stale = renderPage(payload.transport);

@@ -4,9 +4,10 @@ Reactive pages built with Python and Genro.
 
 ## Status
 
-**Alpha — first integration experiment.** A minimal genro-asgi server returns
-an HtmlBuilder source through TYTX; genro-dom-js constructs it in the browser.
-This is an ordinary-HTML Hello World, not a complete page framework.
+**Alpha — registered startup prototype.** A genro-asgi worker registers each page
+before emitting the bootstrap HTML. Its page-owned RPC service retrieves a typed
+source recipe and genro-dom-js builds it in the browser. Hello World, the widget
+gallery, inspector and JavaScript laboratory exercise this integration.
 
 ## Hello World
 
@@ -31,8 +32,11 @@ expose the client runtime and source builder for inspection.
 The command launches a native ASGI application in the genro-asgi worker pool
 (requires genro-asgi 0.43.1). Each valid HTML request registers a toolbox-generated
 22-character page ID before embedding it in the TYTX startup Bag. The core emits
-the connection cookie. The source still travels over HTTP until the next startup
-phase; registration alone does not imply the client uses WebSocket yet.
+the connection cookie. The browser creates its `PageApplication` (`genro`) before
+requesting source, opens its registered WSX channel, then mounts the typed recipe.
+`genro.rpc` owns calls and pending-call cleanup. The DOM library's standalone
+`Application(host, builder)` API remains available; `Application(host)` followed
+by `mountBuilder(builder)` supports deferred construction without any network.
 
 Worker state defaults to `/tmp/genro-pages-PORT`; use `--state-dir` to select another
 short local path (Unix socket paths have a length limit). The direct application
@@ -63,7 +67,7 @@ the command used locally and browser observations.
 ## Next steps
 
 Preserve browser reactivity and legacy recipe names. This experiment does not
-implement initial datastore transport, per-user/page residency, WebSocket calls,
+implement selective datastore synchronization, full per-user/page lifecycle,
 remote fragments, resolver transport or component-body transport. Datastore root
 semantics remain under review in genro-builders issue #37; Hello World does not
 change them. Existing JS web-component collections remain available for the next
@@ -76,11 +80,12 @@ See LICENSE and NOTICE.
 
 ## MessagePack comparison
 
-The page has JSON and MessagePack buttons. `/main?transport=msgpack` returns
-`application/vnd.tytx+msgpack` bytes. The browser reads an ArrayBuffer, calls
-`Bag.fromTytx(new Uint8Array(buffer), 'msgpack')`, then loads the decoded source
-through the same builder. The inspector shows the mounted source Bag as XML after decoding and activation;
-it is not the network payload.
+The page has JSON and MessagePack source comparison buttons. Registered WSK
+calls always travel in the core's text WSX envelope with TYTX JSON. Selecting
+MessagePack changes the hosted recipe response codec; the core decodes that
+response and sends it in its ordinary WSX envelope. This is not binary WebSocket
+transport. Explicit HTTP source requests still return MessagePack bytes when
+requested. The inspector displays the decoded, mounted source Bag as XML.
 
 The Python environment needs `genro-tytx[msgpack]`; the client source checkout
 needs `@msgpack/msgpack` in `genro-tytx/js/node_modules` (tested with 3.1.3).
@@ -89,3 +94,32 @@ library's ESM distribution. No MessagePack codec is copied into pages.
 
 Three integration cases pass: JSON and MessagePack both build the expected DOM,
 plus shell/asset checks. Both transports were observed in the in-app browser.
+
+## RPC transport configuration
+
+`PageConfiguration(..., rpc_http_method="WSK")` sets the default, passed through
+the worker and Python application into `startup.rpc.httpMethod`. The command-line
+equivalent is `--rpc-http-method WSK` (also POST or GET). The application constructor
+accepts the same `rpc_http_method` option. An individual call wins over the default:
+
+```javascript
+await genro.rpc.remoteCall('/main', {transport: 'json'});
+await genro.rpc.remoteCall('/main', {transport: 'json'}, {httpMethod: 'POST'});
+```
+
+`method` remains the remote route; `httpMethod` selects WSK, POST or GET. Calls
+return Promises, have timeouts, and reject on disposal or connection failure;
+there is no automatic replay or switch to HTTP. The registered page channel is
+opened during startup even if application RPC defaults to HTTP. Every source
+request checks connection ownership and uses the registered page selection.
+The unregistered test/demo application explicitly loads its recipe over GET.
+Declarative `dataRpc`, callback compatibility, reconnection, nested iframe routing
+and business validation remain subsequent work.
+
+## Browser source ownership
+
+`js/src` is the authoritative copy of page-integration JS/CSS. The wheel build
+includes it under `genro_pages/resources`; development serves the original source.
+`genro-dom-js` owns generic rendering and binding, independent of pages or ASGI.
+Packaging all browser dependencies and validating a standalone installation without
+sibling checkouts remain on the roadmap. A source move is not a complete release bundle.

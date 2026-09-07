@@ -32,6 +32,9 @@ docs = ["sphinx>=7.0", "sphinx-rtd-theme>=2.0", "myst-parser>=2.0"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/genro_pages"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"js/src" = "genro_pages/resources"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"

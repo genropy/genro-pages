@@ -4,7 +4,7 @@ import {setupDom} from '../../genro-dom-js/tests/dom.js';
 setupDom();
 const {fromTytx} = await import('genro-tytx');
 const {Bag} = await import('genro-bag-js');
-const {mountInspector} = await import('../src/genro_pages/resources/inspector.js');
+const {mountInspector} = await import('../js/src/inspector.js');
 const host = document.createElement('div');
 document.body.append(host);
 const data = new Bag();

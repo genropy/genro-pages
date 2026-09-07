@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {setupDom} from '../../genro-dom-js/tests/dom.js';
 setupDom();
 const {Application} = await import('genro-dom-js');
-const {GalleryBuilder} = await import('../src/genro_pages/resources/gallery.js');
+const {GalleryBuilder} = await import('../js/src/gallery.js');
 class Page extends GalleryBuilder {
     main(root) {
         root.data('title', 'Hello');

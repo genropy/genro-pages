@@ -78,3 +78,51 @@ The new pages RPC service must be the transport dependency of future dataRpc, no
 ### Confirmed RPC transport configuration
 
 The owner confirmed WSK as the initial RPC default, redefinable through application configuration. An explicit per-call `httpMethod` overrides this default; `method` remains the remote operation. Native registered startup opens its page channel independently of the RPC default. POST/GET must remain explicit alternatives, with no automatic retry of failed WebSocket mutations through HTTP. The owner authorized changes in both pages and DOM for the generic deferred mount and integration.
+
+### Phase 2 implementation and verification
+
+- `genro-dom-js` keeps generic `Application(host, builder)` and now also supports
+  `Application(host)` followed by one `mountBuilder(builder)`. Data and service
+  identities survive mounting. Failed mounting disposes the partial runtime and
+  rethrows; repeated or late mounts are rejected. 131 DOM tests pass.
+- Pages owns `js/src/application.js` and `rpc.js`: `PageApplication` extends the
+  generic runtime, owns its page ID and `genro.rpc`, and releases pending work.
+  The initial WSK default is configurable through PageConfiguration, PageWorker
+  and WebpageApplication (`rpc_http_method`), through startup.rpc.httpMethod, and
+  with the CLI `--rpc-http-method`. Per-call options.httpMethod wins.
+- All integration JS/CSS moved from resources to js/src (one authoritative copy).
+  Stable asset URLs are unchanged. Wheel force-include produces the package's
+  resources directory. Wheel and sdist built locally; every JS/CSS asset in the
+  wheel byte-compared against source; sdist includes js/src. A complete dependency
+  bundle and no-sibling installation remain roadmap work, not demonstrated here.
+- Registered startup creates genro before opening the core WSX page channel and
+  acquiring source; it mounts after receiving a typed SourceBag. Inspector uses
+  the same RPC service. An explicit configured HTTP default can fetch source via
+  HTTP after opening the channel. The unregistered standalone test/demo retains
+  an explicit GET path. No synthetic empty mounted builder is used.
+- Remote recipe and inspector handlers validate page/connection/user ownership
+  on every call, including GET and POST. Registered page selection is authoritative;
+  a caller cannot use the selector to change a registered page's recipe.
+- Native browser WebSocket, core 0.43.1: WSX:// JSON envelopes with TYTX JSON data.
+  Hosted JSON/MessagePack source replies both verified. MessagePack selection does
+  not make the outer WebSocket wire binary. No reconnect, replay, freeze/resume,
+  iframe multiplexing or unsolicited server event handling claimed in this phase.
+- Correlation, out-of-order replies, HTTP/WSK errors, timeout, late result and
+  disposal tests pass. Review found a swallowed mount error: generic mount cleanup
+  made the bootstrap look obsolete. Fixed by distinguishing explicit cancellation
+  (AbortError) from a failed mount; a malformed Python SourceBag now produces a
+  visible startup error. Independent re-review found no remaining concrete bug.
+- Real worker-pool test checks two pages, JSON and MessagePack source acquisition,
+  HTTP alternatives, missing identity and foreign connection denial. Browser CUA
+  on http://127.0.0.1:8014/ demonstrated Hello World binding, MessagePack rebuild,
+  textBox second-example isolation, inspector open/close, and playground live
+  title plus XML data update. No login required. The inspector button was verified;
+  keyboard shortcut remains covered by existing automated runtime tests.
+- Live server launch: PYTHONPATH=src:../genro-builders/src:../genro-bag/src:../genro-tytx/src
+  temp/registered-startup-venv/bin/python -m genro_pages --modules .. --port 8014
+  --state-dir /tmp/genro-pages-channel. PID 62778, worker PID 62789 at launch.
+  This uses the same isolated core 0.43.1 environment recorded in phase 1.
+
+Final phase-2 automated verification: 92 pages tests passed in 26.88 seconds;
+131 DOM tests passed (including its commit hook). Ruff and diff whitespace checks
+passed. DOM dependency checkpoint: 718acbe on codex/python-js-alignment.
