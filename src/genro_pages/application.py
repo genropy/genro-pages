@@ -169,7 +169,7 @@ class WebpageApplication(RoutedApplication):
             startup.set_item("page_id", page_id)
         document = PageDocument(startup, menu)
         document.create()
-        return "<!doctype html>\n" + document.render(target=False, xml=False)
+        return "<!doctype html>\n" + document.render(target=False, xml=False, pretty=True)
 
     async def __call__(self, scope, receive, send):
         path = scope.get("path", "")

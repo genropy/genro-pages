@@ -41,7 +41,7 @@ class PageDocument(HtmlBuilder):
                    "@msgpack/msgpack": "/_assets/msgpack/index.mjs",
                    "module": "/_assets/pages/module.js",
                    "@xmldom/xmldom": "/_assets/pages/xmldom.js"}
-        head.script(self.get_script_json(json.dumps({"imports": imports})), html_type="importmap")
+        head.script(self.get_script_json(json.dumps({"imports": imports}, indent=2)), html_type="importmap")
         head.script(self.get_script_json(to_tytx(self.startup, transport="json")),
                     id="page-startup", html_type="application/vnd.tytx+json")
         for href in ("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css",

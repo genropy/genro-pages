@@ -126,3 +126,7 @@ The owner confirmed WSK as the initial RPC default, redefinable through applicat
 Final phase-2 automated verification: 92 pages tests passed in 26.88 seconds;
 131 DOM tests passed (including its commit hook). Ruff and diff whitespace checks
 passed. DOM dependency checkpoint: 718acbe on codex/python-js-alignment.
+
+Owner confirmed the phase-2 usability check with “ok” after the browser handover. Naming review is the remaining closure gate.
+
+Owner requested readable page source before naming closure. Enabled the existing HtmlRenderer pretty option for the bootstrap document and indented its import map JSON. Raw script values remain intact; the source recipe and runtime DOM are unchanged.
