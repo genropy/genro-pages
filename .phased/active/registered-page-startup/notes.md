@@ -137,3 +137,27 @@ The owner requested working alongside genro-asgi. The active branch now resides
 in `/Users/gporcari/Sviluppo/genro_ng/meta-genro-modules/sub-projects/genro-pages`.
 See `temp/relocation-20260907.md` for preserved documents, explicit experimental
 dependency roots and reproduction commands. Phase-2 naming approval is still pending.
+
+## Phase 2 — closure, 2026-09-07
+
+The owner confirmed all 12 proposed names after reviewing the full list and
+clarifying the JavaScript/Python distinction. No methods were renamed or removed;
+only wf:phase-2:new comments were stripped. Generic mountBuilder naming was
+recorded in sibling DOM commit eaaa0ac after its hook passed all 131 tests.
+
+Closing verification on the canonical Pages checkout: 92 tests passed in 52.22 s;
+ruff check src tests and git diff --check passed. The original phase-2 skeleton
+is unchanged from plan addition 8522150; implemented test names and every
+wf:contract line are preserved, with no pending bodies. Normalized contract
+changes are covered by the ownership/distribution and configurable-RPC decisions
+recorded above; Done, Pattern and authored Verify are unchanged. Prior browser
+and owner usability evidence remains applicable; no behavioral edits followed it.
+
+Phase file attribution includes all phase-2 partial/checkpoint commits. Later
+relocation, dependency documentation and ASGI version-bound commits remain
+separately attributed; this closure does not treat them as additional phase-2
+features. The temporary live-monitor POC and Page/Builder/RPC authoring analysis
+are follow-up feasibility/design work, not part of this phase's Done gate.
+
+The registered-startup workflow now has both phases closed. Next: quality-check,
+then finalize-workflow. No push, merge or release performed.

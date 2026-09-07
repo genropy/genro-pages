@@ -6,7 +6,6 @@ import {fromTytx, toTytx} from 'genro-tytx';
  * releases pending work; neither disconnection nor timeout replays a call.
  */
 export class RpcService {
-    // wf:phase-2:new
     constructor(application, configuration) {
         this.application = application;
         this.httpMethod = configuration?.getItem('httpMethod') ?? 'WSK';
@@ -18,7 +17,6 @@ export class RpcService {
         this.channel = null;
     }
 
-    // wf:phase-2:new
     async openChannel() {
         if (this.disposed) throw new DOMException('RPC service is disposed', 'AbortError');
         if (this.channel) return this.channel;
@@ -26,7 +24,6 @@ export class RpcService {
         return this.channel;
     }
 
-    // wf:phase-2:new
     async _openChannel() {
         if (!this.application.pageId) throw new Error('A registered page is required for WSK');
         const url = new URL('/_wsx', window.location.href);
@@ -50,7 +47,6 @@ export class RpcService {
         return this._sendCall('/_wsx/openchannel', {parameters: {sequential: true}}, 30000);
     }
 
-    // wf:phase-2:new
     async remoteCall(method, parameters = {}, {httpMethod = this.httpMethod, timeout = 30000} = {}) {
         if (this.disposed) throw new DOMException('RPC service is disposed', 'AbortError');
         if (!Number.isFinite(timeout) || timeout <= 0) throw new Error('RPC timeout must be positive');
@@ -63,7 +59,6 @@ export class RpcService {
         return this._httpCall(path, parameters, httpMethod, timeout);
     }
 
-    // wf:phase-2:new
     _sendCall(path, parameters, timeout) {
         if (this.disposed) return Promise.reject(new DOMException('RPC service is disposed', 'AbortError'));
         if (this.socket?.readyState !== WebSocket.OPEN) {
@@ -87,7 +82,6 @@ export class RpcService {
         });
     }
 
-    // wf:phase-2:new
     _receiveMessage(event) {
         try {
             if (typeof event.data !== 'string' || !event.data.startsWith('WSX://')) {
@@ -115,7 +109,6 @@ export class RpcService {
         }
     }
 
-    // wf:phase-2:new
     async _httpCall(path, parameters, httpMethod, timeout) {
         const controller = new AbortController();
         this.controllers.add(controller);
@@ -148,7 +141,6 @@ export class RpcService {
         }
     }
 
-    // wf:phase-2:new
     dispose(error = new DOMException('RPC service is disposed', 'AbortError')) {
         if (this.disposed) return;
         this.disposed = true;

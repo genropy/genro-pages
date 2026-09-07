@@ -105,7 +105,6 @@ class WebpageApplication(RoutedApplication):
         return self.result_wrapper(to_tytx(builder.source, transport="json"),
                                    media_type="application/vnd.tytx+json")
 
-    # wf:phase-2:new
     def get_registered_page(self, request, page_id=None):
         """Resolve a page only under its authenticated connection, for either transport."""
         scope = request.scope if request is not None else {}
