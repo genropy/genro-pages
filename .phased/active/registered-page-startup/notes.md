@@ -74,3 +74,7 @@ Do not accidentally reproduce legacy divergence: HTTP remoteCall can become sync
 DataRpc concurrency is not implemented by _lastDeferred: it only records a reference, and each completion may overwrite the destination. A latest-result policy for repeat calls on the same source node is a new semantic decision, not a legacy behavior to claim. General page RPC must retain independent correlated calls; automatic replay of side-effecting calls after reconnection is not implied.
 
 The new pages RPC service must be the transport dependency of future dataRpc, not a second implementation hidden in the data provider. This does not claim that dataRpc grammar/runtime support already exists. HTTP versus WSK defaults for new recipes remain an owner decision; Phase 2 startup can select WSK explicitly.
+
+### Confirmed RPC transport configuration
+
+The owner confirmed WSK as the initial RPC default, redefinable through application configuration. An explicit per-call `httpMethod` overrides this default; `method` remains the remote operation. Native registered startup opens its page channel independently of the RPC default. POST/GET must remain explicit alternatives, with no automatic retry of failed WebSocket mutations through HTTP. The owner authorized changes in both pages and DOM for the generic deferred mount and integration.
