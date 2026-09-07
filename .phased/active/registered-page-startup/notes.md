@@ -55,3 +55,22 @@ The owner approved this architectural direction in conversation:
 Covering plan edit: added ownership/distribution Must not break headers and clarified Phase 2 Details. Existing acceptance tests are unchanged. The actual source relocation, generic mount API and packaging implementation are not claimed complete; detailed integration scope still needs the phase gate after this architectural clarification.
 
 Preflight evidence: Application currently mounts in its constructor and BuilderBase.loadSource rejects mounted builders. A clean delayed-mount boundary must be designed rather than worked around through bootstrap internals. Core WSX rehydrates JSON/MessagePack hosted responses and emits TYTX JSON text; MessagePack response selection is not a binary WebSocket transport. Hosted source selection must follow the registered page and its owning connection.
+
+### Legacy RPC audit before Phase 2 implementation
+
+Owner explicitly requested reviewing serverCall and preserving the WSK convention before building the new RPC proxy/dataRpc integration.
+
+Verified legacy references (root /Users/gporcari/Sviluppo/Genropy/genropy):
+- gnrjs/gnr_d11/js/genro.js:2199, genro.serverCall(method, params, async_cb, mode, httpMethod), defaults to POST and delegates to genro.rpc.remoteCall.
+- gnrjs/gnr_d11/js/genro_rpc.js:267: proxy serverCall is empty; it is NOT the actual entry point. remoteCall at 450 dispatches WSK directly to genro.wsk.call; _serverCall/_serverCall_execute are HTTP-specific.
+- gnrjs/gnr_d11/js/gnrdomsource.js:391: dataRpc extracts httpMethod; otherwise _POST=False means GET, default POST. _onCalling may veto before transport; _onResult/_onError execute with source-node context. Destination is written before _onResult, and callback arguments include the evaluated original kwargs.
+- gnrjs/gnr_d11/js/gnrwebsocket.js:121/205: waitingCalls[result_token] correlates replies. No per-call timeout or close rejection in this path. Missing socket resolves null. Business errors resolve an error object instead of rejecting. Result is a data node; BagNode.setValue unwraps it for destination storage, but callbacks can still observe a node.
+- projects/gnrcore/packages/test15/webpages/ws/dbselect_ws.py and testcomunication.py demonstrate dataRpc(..., httpMethod='WSK') alongside normal data binding.
+
+Keep the distinction: method names the remote operation; httpMethod='WSK' selects WebSocket transport. WSK is a Genro convention, not a network HTTP verb. In the new core it maps to the existing WSX synthetic WSK request, without copying the legacy result_token/XML protocol.
+
+Do not accidentally reproduce legacy divergence: HTTP remoteCall can become synchronous when no callback is supplied, whereas WSK always returns a Deferred; WSK bypasses HTTP mode/timeout and response side-effect processing; result node/value shapes and callback-chain returns differ. Prefer a consistent Promise-based core with explicit compatibility adaptation where a real consumer needs it. Reject unavailable/closed/timed-out requests; never interpret an absent socket as a successful null result. Client cancellation does not imply cancellation of server work.
+
+DataRpc concurrency is not implemented by _lastDeferred: it only records a reference, and each completion may overwrite the destination. A latest-result policy for repeat calls on the same source node is a new semantic decision, not a legacy behavior to claim. General page RPC must retain independent correlated calls; automatic replay of side-effecting calls after reconnection is not implied.
+
+The new pages RPC service must be the transport dependency of future dataRpc, not a second implementation hidden in the data provider. This does not claim that dataRpc grammar/runtime support already exists. HTTP versus WSK defaults for new recipes remain an owner decision; Phase 2 startup can select WSK explicitly.
