@@ -57,7 +57,7 @@ node --experimental-loader ./tests/lab_loader.mjs --test js/tests/rpc.test.mjs
 | --- | --- |
 | Pages | Branch `codex/hello-world`; record `git rev-parse HEAD` after cloning |
 | DOM JS | `d888cefbb4dfb65868148afb2e00cabe84b4de08` |
-| Builders Python | `ed9246b49d46a33dfc089e85fd25366438864e57` |
+| Builders Python | `25ae61950717afae10e1d43d8318f272122202ac` |
 | Bag JS | `faf6bef3badb389d25ea4cb3b35c5369cb7ffd8a` (v0.4.0) |
 | TYTX JS | `6b9bf3a486014d92812caa3b06674083e646c5cd` (v0.15.0) |
 | ASGI / Bag / TYTX Python | 0.43.1 / 0.21.1 / 0.15.0 |
@@ -69,7 +69,10 @@ Bag/ASGI independently: this snapshot depends on their existing integration path
 
 ## Verification of this preview
 
-The DOM snapshot passes 212 tests after a clean `npm ci`. Builders passes 401
-Python tests. Pages passes 105 integration tests against the current DOM snapshot;
+The DOM snapshot passes 212 tests after a clean `npm ci`. Builders passes 404
+Python tests. Pages passes 106 integration tests against the current DOM snapshot;
 the RPC suite passes 3 tests with the documented module loader. Ruff passes in
 Pages and Builders. Mypy findings are advisory under repository policy.
+
+The GUI Python grammar uses `dataFormula(destination=..., formula=...)`, matching
+the DOM runtime. Generic Python Builders keeps its original static `func` API.

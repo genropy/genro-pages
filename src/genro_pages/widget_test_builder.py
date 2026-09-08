@@ -8,6 +8,9 @@ class WidgetTestBuilder(HtmlBuilder):
     # GUI spelling; generic HTML keeps its native data element.
     data_recipe_alias = True
 
+    @element(_meta={"data_element": True})
+    def dataFormula(self, destination: str, formula: str, **kwargs): ...
+
     @element(sub_tags="*")
     def form(self, **kwargs): ...
 

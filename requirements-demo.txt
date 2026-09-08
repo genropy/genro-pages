@@ -51,4 +51,4 @@ typing_extensions==4.16.0
 uvicorn==0.52.4
 websockets==17.1
 xmlschema==4.3.2
-genro-builders @ git+https://github.com/genropy/genro-builders.git@ed9246b49d46a33dfc089e85fd25366438864e57
+genro-builders @ git+https://github.com/genropy/genro-builders.git@25ae61950717afae10e1d43d8318f272122202ac
