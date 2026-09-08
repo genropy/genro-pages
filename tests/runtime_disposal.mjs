@@ -88,7 +88,7 @@ class Fixture {
         class Formulas extends Page {
             main(root) {
                 super.main(root);
-                root.dataFormula({destination: 'derived', func: ({title}) => { formulaRuns++; return title.toUpperCase(); }, title: '^title'});
+                root.dataFormula({destination: 'derived', formula: ({title}) => { formulaRuns++; return title.toUpperCase(); }, title: '^title'});
             }
         }
         const app = this.mount('main', undefined, Formulas), peer = this.mount('peer');

@@ -181,3 +181,43 @@ Verification: built wheel metadata matches the source requirement, accepts the
 installed 0.43.1 and rejects 0.44.0. No runtime imports changed. Replies to bridge,
 asgi-coord and tytx are drafted in `temp/mail-outbox/`; delivery was blocked by
 automatic review pending explicit payload/destination approval. None were sent.
+
+## Store entities and logical APIs — backlog, owner request 2026-09-08
+
+Plan a dedicated, substantial study of the legacy JavaScript stores before
+introducing the new store APIs. Treat stores as first-class collection entities,
+with explicit responsibilities and logical APIs shared by their consumers.
+This entry records future work; it does not authorize implementing or porting
+store classes now.
+
+Study scope:
+
+- Inventory both legacy families: GnrStoreBag/Grid/Query in gnrstores.js and
+  gnr.stores._Collection, BagRows, ValuesBagRows, AttributesBagRows, RpcBase,
+  FileSystem, Selection and VirtualSelection in genro_components.js.
+- Establish identity semantics: declaration _identifier, runtime identifier,
+  label versus node identity versus application key, row projection and key
+  lookup. Verify differences between store families rather than treating their
+  selector syntax and fallback rules as interchangeable.
+- Examine access, iteration, lookup, updates, insertion/deletion, ordering,
+  filtered views and index mapping; loading, asynchronous resolution, paging,
+  caching, notifications, ownership and disposal. Separate complete local data
+  from partial/virtual collections.
+- Map relationships with widgets, forms, selection and validation. Distinguish
+  collection stores from form persistence adapters and identify reusable seams.
+- Classify each mechanism as retain, adapt, replace or defer, backed by concrete
+  source references and behavioral examples. Modernize implementations according
+  to current needs; neither copy Dojo machinery nor couple the local contract to
+  a grid, database or specific hosting server.
+
+Required outcome: a legacy evidence matrix, proposed entities and responsibilities,
+logical public API contracts, open decisions for owner review, and a staged
+implementation order with consumer-level tests. Verify equivalent Python recipe
+and JS authoring behavior across the serialization/runtime boundary.
+
+Dependent validation work: define localnodup against the collection's identity
+contract, excluding the current item without relying on its editable business
+key. Decide full-collection versus filtered-view scope, typed equality, empty
+identifiers, change-triggered revalidation and the limits of a partial local
+cache. Preserve the distinction from legacy database nodup and remote checks.
+Do not implement localnodup as a grid-specific shortcut ahead of this study.

@@ -2,6 +2,10 @@
 
 Reactive pages built with Python and Genro.
 
+**Try the complete preview:** [Collaborator installation and launch guide](docs/collaborator-preview.md).
+
+**Technical manual:** [Repository maps and manual](docs/manual/repository-maps.md).
+
 ## Status
 
 **Alpha — registered startup prototype.** A genro-asgi worker registers each page
@@ -134,3 +138,39 @@ requirements and open questions. Consult the current GUI guide and active phased
 plan for subsequent implementation progress.
 
 Current local paths and commands: [development checkout](docs/development-checkout.md).
+
+## Inspector editing
+
+Open Inspector with Ctrl+Shift+D and select a node in Data or Source. The value
+grid shows *value first, followed by attributes. Edit the right-hand cells directly;
+the compact type selector preserves string, number, boolean and null values.
+Use + to add an attribute and the row’s minus button to mark it for removal
+(or undo that removal). Apply validates the whole draft before updating the
+actual Bag; Discard reads the current node again. Complex values and attributes
+remain read-only. A horizontal splitter divides the independently scrolling tree
+and grid, while the selected path stays in the bottom bar.
+
+External changes refresh an idle editor; pending edits require a reload if the
+node changed. Removing the selected node disables editing. Changes affect only
+the running instance, not the original recipe. Replacing a Source binding with
+a literal intentionally changes that connection. The same client editor serves
+Python-hydrated and JavaScript-authored pages without a server request.
+
+## Local technical manual
+
+After installing this checkout (`.venv/bin/python -m pip install -e . --no-deps`), run:
+
+```sh
+.venv/bin/genropages manual
+```
+
+Open http://127.0.0.1:8037/ in Chrome and use its page translation to read Italian.
+Stop the server with Ctrl+C. Use `--port 8038` if the default port is occupied.
+`python -m genro_pages manual` is the equivalent module command.
+
+The command serves `docs/manual/html` from this checkout, falling back to a local
+`temp/technical-manual-*/html` draft, independently of the current directory.
+The manual is not bundled in the Python wheel: use `genropages manual --directory /path/to/html` for an exported
+manual. It must contain `index.html`. The server binds to loopback by default;
+it serves only the selected HTML directory. This command does not regenerate
+or translate the manual. The existing `--modules PATH` page launch is unchanged.

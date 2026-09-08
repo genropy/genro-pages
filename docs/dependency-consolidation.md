@@ -12,14 +12,60 @@ obtain an installable versioned release, then validate Pages against that artifa
 before removing its local override. A main-branch commit or package version string
 is not evidence of a published package. No automatic merge, push or release.
 
+## Released JS follow-up — 2026-09-08
+
+The owner completed Bag JS v0.4.0 publication after the audit below. Pages now
+uses the published Git artifacts for Bag JS (`faf6bef3badb389d25ea4cb3b35c5369cb7ffd8a`)
+and TYTX (`6b9bf3a486014d92812caa3b06674083e646c5cd`), installed in an isolated
+client root with a commit-resolving npm lockfile. Registry publication on npm
+is not required. All 92 Pages tests pass (24.64 s). Browser validation additionally required the
+Pages import-map entry for Bag JS `#uuid`; after that change JSON, MessagePack
+and focus-out binding work, and all six bootstrap tests pass.
+
+See development-checkout.md for the module root, installation steps and the
+remaining experimental DOM snapshot / Python Builders override. No original
+worktree was changed. The Python Bag 0.22 / released-ASGI incompatibility remains.
+Earlier statements below that Bag JS had not been released are historical.
+
+## Alignment audit — 2026-09-08
+
+PyPI confirms Bag 0.22.0, TYTX 0.15.0 and ASGI 0.44.0. GitHub confirms TYTX
+`v0.15.0` at `6b9bf3a486014d92812caa3b06674083e646c5cd`; Bag JS has no published
+tag/release. Canonical Bag JS 0.4.0 changes remain uncommitted (registered branch
+types, node tags, attribute queries, resolver wire descriptions and typed storage).
+No consolidation or publication of that work is performed from Pages.
+
+The isolated published Bag 0.22.0/TYTX 0.15.0 pair passes 44 typed-branch and Bag
+value/signing contracts. However, importing the SPA worker from the published
+ASGI 0.44.0 wheel fails because it imports the removed genro_bag.datachange
+module. The existing ASGI 0.43.1 has the same dependency. Active Pages retains
+Bag 0.21.1 with a temporary <0.22 bound; ASGI 0.45 consolidation/release and
+its import-path migration are prerequisites for lifting it.
+
+TYTX Python is upgraded to 0.15.0, without its Python source override. The JS
+checkout used by the existing browser/Node links matches the published v0.15.0
+tag with no tracked source changes. All 92 Pages tests pass and 39 TYTX JS
+registry tests pass. Distribution still uses explicit JS checkout links; this
+is not a claim that all browser dependencies are packaged as released assets.
+
+## Python Bag release adoption — 2026-09-07
+
+The published genro-bag 0.21.1 wheel was installed in isolation with TYTX 0.14.0.
+All 24 typed-branch regression cases pass outside the Bag checkout, without its
+conftest. All 92 Pages tests also pass with that release replacing the experimental
+Python Bag source path (27.45 s). The Pages virtual environment now uses 0.21.1;
+its minimum dependency and development command are updated. The experimental
+worktree is preserved. Bag JS and the other source overrides remain separate
+release prerequisites. The 0.21.0 failures recorded below are historical evidence.
+
 ## Verified status
 
 | Dependency | Available version | Missing work / handoff |
 | --- | --- | --- |
-| genro-tytx | PyPI 0.14.0 | Already published; no new codec API requested by this audit |
-| genro-bag | PyPI 0.21.0 | Mixed registered branch types; invalid-parent handling |
+| genro-tytx | Python 0.15.0 adopted; JS at published v0.15.0 | Public JS registered-type lookup; 92 Pages / 39 JS registry tests pass |
+| genro-bag | 0.21.1 retained; PyPI 0.22.0 available | 0.22 removes DataChangeCollector still required by released ASGI; temporary <0.22 bound |
 | genro-builders | PyPI 0.23.1; main declares 0.23.2 | SourceBag XS registration; GUI data alias; publish required fixes |
-| genro-bag-js | main declares 0.3.0; npm name returns 404 | Extend existing issue #4; typed wire alignment and release artifact |
+| genro-bag-js | Published Git v0.4.0 adopted | Installed at faf6bef; 92 Pages tests pass with released TYTX JS v0.15.0 |
 | genro-dom-js | npm name returns 404; no GitHub release | Review experimental runtime changes in slices and release artifact |
 
 Registry queries used PyPI package JSON, npm package endpoints, and GitHub

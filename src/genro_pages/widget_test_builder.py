@@ -8,6 +8,12 @@ class WidgetTestBuilder(HtmlBuilder):
     # GUI spelling; generic HTML keeps its native data element.
     data_recipe_alias = True
 
+    @element(sub_tags="*")
+    def form(self, **kwargs): ...
+
+    @element(sub_tags="*")
+    def labledBox(self, **kwargs): ...
+
     @element(sub_tags="")
     def copyButton(self, **kwargs): ...
 
@@ -48,7 +54,13 @@ class WidgetTestBuilder(HtmlBuilder):
     def horizontalSlider(self, **kwargs): ...
 
     @element(sub_tags="")
+    def verticalSlider(self, **kwargs): ...
+
+    @element(sub_tags="")
     def checkbox(self, **kwargs): ...
+
+    @element(sub_tags="*")
+    def formlet(self, **kwargs): ...
 
     @element(sub_tags="*")
     def panel(self, **kwargs): ...

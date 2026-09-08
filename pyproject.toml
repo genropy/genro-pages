@@ -22,7 +22,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Framework :: AsyncIO",
 ]
-dependencies = ["genro-asgi>=0.43.1,<0.44", "genro-builders>=0.23.2", "genro-tytx[msgpack]>=0.14.0", "genro-toolbox"]
+dependencies = ["genro-asgi>=0.43.1,<0.44", "genro-builders>=0.23.2", "genro-bag>=0.21.1,<0.22", "genro-tytx[msgpack]>=0.15.0", "genro-toolbox"]
+
+[project.scripts]
+genropages = "genro_pages.__main__:main"
 
 [project.optional-dependencies]
 test = ["pytest>=7.0", "pytest-cov>=4.0", "pytest-asyncio>=0.23"]

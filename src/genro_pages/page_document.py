@@ -37,6 +37,7 @@ class PageDocument(HtmlBuilder):
         head.title("Genro Pages · Laboratory")
         imports = {"genro-dom-js": "/_assets/dom/index.js",
                    "genro-bag-js": "/_assets/bag/index.js",
+                   "#uuid": "/_assets/bag/browser-uuid.js",
                    "genro-tytx": "/_assets/tytx/index.js",
                    "@msgpack/msgpack": "/_assets/msgpack/index.mjs",
                    "module": "/_assets/pages/module.js",
